@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMC Pipeline - Error Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .timestamp {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-card.critical { border-color: #ff4757; }
+        .stat-card.warning { border-color: #ffa502; }
+        .stat-card.info { border-color: #3498db; }
+        .stat-card.success { border-color: #2ed573; }
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        .stat-number.critical { color: #ff4757; }
+        .stat-number.warning { color: #ffa502; }
+        .stat-number.info { color: #3498db; }
+        .stat-number.success { color: #2ed573; }
+        .stat-label {
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .error-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .error-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .error-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff4757;
+        }
+        .error-card.warning { border-left-color: #ffa502; }
+        .error-card.info { border-left-color: #3498db; }
+        .error-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .error-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #ff6b7a;
+        }
+        .error-card.warning .error-title { color: #ffc048; }
+        .error-card.info .error-title { color: #5dade2; }
+        .error-badge {
+            background: #ff4757;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+        .error-card.warning .error-badge { background: #ffa502; }
+        .error-card.info .error-badge { background: #3498db; }
+        .error-location {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        .error-message {
+            background: rgba(255,71,87,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .error-card.warning .error-message { background: rgba(255,165,2,0.1); }
+        .error-card.info .error-message { background: rgba(52,152,219,0.1); }
+        .solution-box {
+            background: rgba(46,213,115,0.1);
+            border: 1px solid rgba(46,213,115,0.3);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .solution-box h4 {
+            color: #2ed573;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .solution-box ul {
+            margin-left: 20px;
+            color: #aaa;
+        }
+        .solution-box li {
+            margin-bottom: 8px;
+        }
+        .solution-box code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #2ed573;
+        }
+        .service-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .service-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+        .service-icon.healthy { background: rgba(46,213,115,0.2); }
+        .service-icon.unhealthy { background: rgba(255,71,87,0.2); }
+        .service-icon.warning { background: rgba(255,165,2,0.2); }
+        .service-info h3 { margin-bottom: 5px; }
+        .service-info p { color: #888; font-size: 0.9em; }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-dot.healthy { background: #2ed573; }
+        .status-dot.unhealthy { background: #ff4757; }
+        .status-dot.warning { background: #ffa502; }
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 20px rgba(0,210,255,0.3);
+            transition: transform 0.3s;
+        }
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+        .copy-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>EMC Pipeline Error Dashboard</h1>
+        <p class="timestamp">Last Updated: <span id="timestamp"></span></p>
+
+        <div class="stats-grid">
+            <div class="stat-card critical">
+                <div class="stat-number critical">3</div>
+                <div class="stat-label">Critical Errors</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-number warning">4</div>
+                <div class="stat-label">Warnings</div>
+            </div>
+            <div class="stat-card info">
+                <div class="stat-number info">2</div>
+                <div class="stat-label">Info</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-number success">12</div>
+                <div class="stat-label">Services Running</div>
+            </div>
+        </div>
+
+        <!-- Service Status -->
+        <div class="error-section">
+            <h2>Service Status</h2>
+            <div class="service-status">
+                <div class="service-card">
+                    <div class="service-icon healthy">&#128640;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot healthy"></span>API Server</h3>
+                        <p>localhost:8000 - Running</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon healthy">&#128202;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot healthy"></span>PostgreSQL</h3>
+                        <p>localhost:5432 - Healthy</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon healthy">&#128279;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot healthy"></span>Neo4j</h3>
+                        <p>localhost:7687 - Healthy</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon warning">&#128200;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot warning"></span>Qdrant</h3>
+                        <p>localhost:6333 - Health check failing</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon healthy">&#128172;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot healthy"></span>RabbitMQ</h3>
+                        <p>localhost:5672 - Healthy</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon healthy">&#129302;</div>
+                    <div class="service-info">
+                        <h3><span class="status-dot healthy"></span>Ollama LLM</h3>
+                        <p>localhost:11434 - Running</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Critical Errors -->
+        <div class="error-section">
+            <h2>Critical Errors</h2>
+
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-title">NameError: 'uuid' is not defined</div>
+                    <span class="error-badge">CRITICAL</span>
+                </div>
+                <div class="error-location">services/ingestion_service.py:492</div>
+                <div class="error-message">NameError: name 'uuid' is not defined
+File "/app/services/ingestion_service.py", line 492, in upload_document
+    doc_id = str(uuid.uuid4())</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Add missing import at top of file: <code>import uuid</code></li>
+                        <li>Run command to fix: <code>docker restart ef4032b9d9ff_ingestion_service</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-title">Neo4j APOC Plugin Failed to Load</div>
+                    <span class="error-badge">CRITICAL</span>
+                </div>
+                <div class="error-location">neo4j container startup</div>
+                <div class="error-message">ERROR: could not query https://neo4j-contrib.github.io/neo4j-apoc-procedures/versions.json for plugin compatibility information.
+This could indicate a problem with your network or this container's network settings.
+Neo4j will continue to start, but "apoc" will not be loaded.</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Check network connectivity from Neo4j container</li>
+                        <li>Manually download APOC plugin JAR to /plugins volume</li>
+                        <li>Or disable APOC in docker-compose.yml if not required: Remove <code>NEO4J_PLUGINS: '["apoc"]'</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card">
+                <div class="error-header">
+                    <div class="error-title">PostgreSQL - Missing 'users' Table</div>
+                    <span class="error-badge">CRITICAL</span>
+                </div>
+                <div class="error-location">PostgreSQL Database</div>
+                <div class="error-message">ERROR: relation "users" does not exist at character 93
+STATEMENT: SELECT id, username, email, full_name, created_at, last_login FROM users ORDER BY created_at DESC LIMIT 50</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Run database migrations to create missing tables</li>
+                        <li>Execute SQL: <code>CREATE TABLE users (id UUID PRIMARY KEY, username VARCHAR(255), email VARCHAR(255), full_name VARCHAR(255), created_at TIMESTAMP, last_login TIMESTAMP);</code></li>
+                        <li>Or run: <code>docker exec -it postgres psql -U emc_user -d emc_registry -f /docker-entrypoint-initdb.d/init.sql</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warnings -->
+        <div class="error-section">
+            <h2>Warnings</h2>
+
+            <div class="error-card warning">
+                <div class="error-header">
+                    <div class="error-title">FastAPI Deprecated on_event Handler</div>
+                    <span class="error-badge">WARNING</span>
+                </div>
+                <div class="error-location">services/ingestion_service.py:452, 461</div>
+                <div class="error-message">DeprecationWarning: on_event is deprecated, use lifespan event handlers instead.
+Read more about it in the FastAPI docs for Lifespan Events.</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Replace <code>@app.on_event("startup")</code> with lifespan context manager</li>
+                        <li>Use <code>@asynccontextmanager async def lifespan(app: FastAPI)</code> pattern</li>
+                        <li>This is a deprecation warning - code still works but should be updated</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card warning">
+                <div class="error-header">
+                    <div class="error-title">PostgreSQL Authentication Timeout</div>
+                    <span class="error-badge">WARNING</span>
+                </div>
+                <div class="error-location">PostgreSQL</div>
+                <div class="error-message">FATAL: canceling authentication due to timeout</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Check client connection pool settings</li>
+                        <li>Increase <code>authentication_timeout</code> in postgresql.conf if needed</li>
+                        <li>Verify network latency between services</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card warning">
+                <div class="error-header">
+                    <div class="error-title">Qdrant Health Check Failing</div>
+                    <span class="error-badge">WARNING</span>
+                </div>
+                <div class="error-location">Docker health check</div>
+                <div class="error-message">Container shows "unhealthy" status but API is responding correctly.
+curl http://localhost:6333/healthz returns: "healthz check passed"</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Update Docker health check command in docker-compose.yml</li>
+                        <li>Change to: <code>test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]</code></li>
+                        <li>This is a false positive - Qdrant is actually working fine</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card warning">
+                <div class="error-header">
+                    <div class="error-title">Neo4j Transaction Auto-Rollback</div>
+                    <span class="error-badge">WARNING</span>
+                </div>
+                <div class="error-location">Neo4j</div>
+                <div class="error-message">Transaction with id 1 has been automatically rolled back due to transaction timeout.</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Increase transaction timeout in Neo4j settings</li>
+                        <li>Optimize long-running queries</li>
+                        <li>Use <code>CALL dbms.setConfigValue('dbms.transaction.timeout', '60s')</code></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="error-section">
+            <h2>Information</h2>
+
+            <div class="error-card info">
+                <div class="error-header">
+                    <div class="error-title">PostgreSQL Recovery After Improper Shutdown</div>
+                    <span class="error-badge">INFO</span>
+                </div>
+                <div class="error-location">PostgreSQL</div>
+                <div class="error-message">LOG: database system was not properly shut down; automatic recovery in progress
+LOG: redo starts at 0/17AD2C0
+LOG: redo done at 0/17AD370</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>This is normal after unexpected shutdown</li>
+                        <li>PostgreSQL automatically recovers - no action needed</li>
+                        <li>To prevent: Use <code>docker-compose down</code> for graceful shutdown</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="error-card info">
+                <div class="error-header">
+                    <div class="error-title">Hugging Face Deprecation Warning</div>
+                    <span class="error-badge">INFO</span>
+                </div>
+                <div class="error-location">API Server startup</div>
+                <div class="error-message">FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0.
+Downloads always resume when possible.</div>
+                <div class="solution-box">
+                    <h4>Solution</h4>
+                    <ul>
+                        <li>Update huggingface_hub library: <code>pip install --upgrade huggingface_hub</code></li>
+                        <li>This is just a deprecation warning - functionality is not affected</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Fix Commands -->
+        <div class="error-section">
+            <h2>Quick Fix Commands</h2>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; font-family: monospace;">
+                <p style="color: #2ed573; margin-bottom: 10px;"># Fix ingestion service uuid import</p>
+                <p style="margin-bottom: 20px;">docker exec ingestion_service sed -i '1s/^/import uuid\n/' /app/services/ingestion_service.py && docker restart ef4032b9d9ff_ingestion_service</p>
+
+                <p style="color: #2ed573; margin-bottom: 10px;"># Create missing users table</p>
+                <p style="margin-bottom: 20px;">docker exec -it postgres psql -U emc_user -d emc_registry -c "CREATE TABLE IF NOT EXISTS users (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), username VARCHAR(255) UNIQUE NOT NULL, email VARCHAR(255), full_name VARCHAR(255), created_at TIMESTAMP DEFAULT NOW(), last_login TIMESTAMP);"</p>
+
+                <p style="color: #2ed573; margin-bottom: 10px;"># Restart all services</p>
+                <p style="margin-bottom: 20px;">cd docker && docker-compose restart</p>
+
+                <p style="color: #2ed573; margin-bottom: 10px;"># View all container logs</p>
+                <p>docker-compose logs -f --tail=50</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="location.reload()">Refresh Dashboard</button>
+
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+
+        // Fetch live errors from API
+        async function fetchErrors() {
+            try {
+                const response = await fetch('/api/system/errors');
+                const data = await response.json();
+                console.log('Live error data:', data);
+
+                // Update stats
+                document.querySelector('.stat-card.critical .stat-number').textContent = data.summary.critical;
+                document.querySelector('.stat-card.warning .stat-number').textContent = data.summary.warnings;
+                document.querySelector('.stat-card.info .stat-number').textContent = data.summary.info;
+
+                // Update service status indicators
+                const serviceCards = document.querySelectorAll('.service-card');
+                serviceCards.forEach(card => {
+                    const serviceName = card.querySelector('h3').textContent.toLowerCase();
+                    for (const [service, status] of Object.entries(data.services)) {
+                        if (serviceName.includes(service)) {
+                            const dot = card.querySelector('.status-dot');
+                            const icon = card.querySelector('.service-icon');
+                            if (status === 'connected' || status === 'loaded') {
+                                dot.className = 'status-dot healthy';
+                                icon.className = 'service-icon healthy';
+                            } else {
+                                dot.className = 'status-dot unhealthy';
+                                icon.className = 'service-icon unhealthy';
+                            }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error('Failed to fetch errors:', error);
+            }
+        }
+
+        // Fetch on load
+        fetchErrors();
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            fetchErrors();
+            document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        }, 30000);
+    </script>
+</body>
+</html>

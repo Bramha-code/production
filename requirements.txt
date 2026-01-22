@@ -1,0 +1,130 @@
+# Core Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# Async HTTP/File Operations
+aiofiles==23.2.1
+httpx==0.26.0
+
+# Database Drivers
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+sqlalchemy==2.0.25
+alembic==1.13.1
+
+# Message Brokers
+aio-pika==9.4.0  # RabbitMQ
+pika==1.3.2
+aiokafka==0.10.0  # Kafka (alternative)
+
+# Object Storage (S3)
+boto3==1.34.34
+aioboto3==12.3.0
+
+# Graph Database
+neo4j==5.16.0
+py2neo==2021.2.4
+
+# Vector Database
+qdrant-client==1.7.0
+pymilvus==2.3.5  # Alternative vector DB
+
+# Redis/Caching
+redis==5.0.1
+aioredis==2.0.1
+
+# ML/Embeddings (for vector generation) - REMOVED
+# sentence-transformers==2.3.1
+# torch>=2.2.0
+# torchvision>=0.17.0
+# transformers==4.45.2
+numpy<2.0.0
+
+# Document Processing (Marker)
+marker-pdf==0.3.10
+surya-ocr==0.6.13
+pypdf==3.17.4
+pymupdf==1.23.21
+Pillow==10.2.0
+
+# Document Export (DOCX)
+python-docx==1.1.0
+
+# OpenTelemetry (Observability)
+opentelemetry-api==1.22.0
+opentelemetry-sdk==1.22.0
+opentelemetry-instrumentation-fastapi==0.43b0
+opentelemetry-instrumentation-asyncpg==0.43b0
+opentelemetry-instrumentation-redis==0.43b0
+opentelemetry-exporter-jaeger==1.21.0
+opentelemetry-exporter-otlp==1.22.0
+opentelemetry-exporter-prometheus==0.40b0
+
+# Prometheus Metrics
+prometheus-client==0.19.0
+
+# Retry Logic
+tenacity==8.2.3
+
+# Configuration Management
+python-dotenv==1.0.1
+pyyaml==6.0.1
+
+# Validation & Utilities
+python-multipart==0.0.6
+email-validator==2.1.0.post1
+validators==0.22.0
+
+# CLI Tools
+click==8.1.7
+rich==13.7.0
+typer==0.9.0
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+httpx[test]==0.26.0
+faker==22.5.1
+
+# Development Tools
+black==24.1.1
+isort==5.13.2
+flake8==7.0.0
+mypy==1.8.0
+pre-commit==3.6.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.5.6
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Monitoring & Logging
+python-json-logger==2.0.7
+structlog==24.1.0
+psutil==5.9.8
+
+# Date/Time Utilities
+python-dateutil==2.8.2
+pytz==2024.1
+
+# HTTP/Web
+requests==2.31.0
+aiohttp==3.9.1
+
+# Graph Processing
+networkx==3.2.1
+
+# LLM Clients
+openai==1.12.0
+anthropic==0.18.0
+google-generativeai==0.8.3
+
+# Sentence Transformers for embeddings
+sentence-transformers==2.3.1

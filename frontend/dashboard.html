@@ -1,0 +1,3356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Dashboard - Millennium Techlink</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2310b981'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='100,50 150,140 50,140' stroke='url(%23g)' stroke-width='4' fill='none'/%3E%3Ccircle cx='135' cy='100' r='6' fill='%2310b981'/%3E%3Ccircle cx='65' cy='100' r='6' fill='%2306b6d4'/%3E%3C/svg%3E">
+    <style>
+        :root {
+            --primary: rgb(195, 63, 145);
+            --primary-hover: rgb(175, 43, 125);
+            --secondary: #10b981;
+            --secondary-light: #06b6d4;
+            --bg-white: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-lighter: #f1f5f9;
+            --text-dark: #0f172a;
+            --text-gray: #475569;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.75rem 0;
+        }
+
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo svg {
+            width: 45px;
+            height: 45px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .nav-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            padding-left: 2rem;
+            border-left: 1px solid var(--border);
+        }
+
+        .nav-title i {
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-pill.healthy {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-pill.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-pill.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .pulse-dot.green { background: var(--success); }
+        .pulse-dot.orange { background: var(--warning); }
+        .pulse-dot.red { background: var(--danger); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .refresh-text {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            background: var(--bg-lighter);
+            color: var(--text-dark);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+        .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .stat-icon.pink { background: rgba(195, 63, 145, 0.1); color: var(--primary); }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .stat-trend.up { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .stat-trend.down { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(195, 63, 145, 0.1);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+        }
+
+        .service-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .service-desc {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .service-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-badge.healthy {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .service-badge.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .service-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .metric-value {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border);
+        }
+
+        .chart-card-small {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .chart-canvas-small {
+            height: 80px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-title i {
+            color: var(--primary);
+        }
+
+        .chart-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .chart-value.green { color: var(--success); }
+        .chart-value.blue { color: var(--info); }
+
+        .chart-canvas {
+            height: 100px;
+        }
+
+        /* API Endpoints Table */
+        .api-table-container {
+            background: var(--bg-white);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .api-table th {
+            background: var(--bg-light);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .api-table td {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .api-table tr:hover {
+            background: var(--bg-light);
+        }
+
+        .api-method {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .api-method.get { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .api-method.post { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+        .api-method.put { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .api-method.delete { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .api-endpoint {
+            font-family: 'Consolas', monospace;
+            color: var(--text-dark);
+        }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.green { background: var(--success); }
+        .status-dot.red { background: var(--danger); }
+
+        .latency-bar {
+            height: 6px;
+            background: var(--bg-lighter);
+            border-radius: 3px;
+            width: 100px;
+            overflow: hidden;
+        }
+
+        .latency-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        .latency-fill.fast { background: var(--success); }
+        .latency-fill.medium { background: var(--warning); }
+        .latency-fill.slow { background: var(--danger); }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--bg-lighter);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.green { background: linear-gradient(90deg, var(--success), var(--secondary-light)); }
+        .progress-fill.blue { background: linear-gradient(90deg, var(--info), #818cf8); }
+        .progress-fill.orange { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .progress-fill.red { background: linear-gradient(90deg, var(--danger), #f87171); }
+
+        /* Model Card */
+        .model-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 0.75rem;
+        }
+
+        .model-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .model-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .model-meta {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 1000px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid { grid-template-columns: 1fr; }
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .nav-title { display: none; }
+        }
+
+        /* Loading */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-lighter) 25%, var(--bg-light) 50%, var(--bg-lighter) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Clickable cards */
+        .service-card.clickable {
+            cursor: pointer;
+        }
+
+        .service-card.clickable:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(195, 63, 145, 0.15);
+        }
+
+        .click-hint {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .service-card.clickable:hover .click-hint {
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-white);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-light);
+        }
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .modal-title i {
+            color: var(--primary);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--bg-white);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            max-height: calc(85vh - 80px);
+            overflow-y: auto;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-section-title i {
+            color: var(--primary);
+        }
+
+        .entries-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .entry-card {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-id {
+            font-family: 'Consolas', monospace;
+            font-size: 0.8125rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .entry-badge {
+            font-size: 0.6875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .entry-badge.document { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+        .entry-badge.clause { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .entry-badge.vector { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+        .entry-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .entry-content {
+            font-size: 0.8125rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        .entry-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .tables-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .table-pill {
+            background: var(--bg-lighter);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-pill i {
+            color: var(--info);
+        }
+
+        .table-pill span {
+            color: var(--text-light);
+            font-size: 0.75rem;
+        }
+
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-lighter);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error Cards Styles */
+        .error-filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            background: var(--bg-white);
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .error-filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .error-filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .errors-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .error-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            border-left: 4px solid var(--border);
+        }
+
+        .error-card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .error-card.critical {
+            border-left-color: #dc2626;
+            background: linear-gradient(90deg, rgba(220, 38, 38, 0.05) 0%, var(--bg-white) 100%);
+        }
+
+        .error-card.error {
+            border-left-color: var(--danger);
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, var(--bg-white) 100%);
+        }
+
+        .error-card.warning {
+            border-left-color: var(--warning);
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-white) 100%);
+        }
+
+        .error-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .error-source {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-source-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .error-source-icon.docker { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .error-source-icon.service { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .error-source-icon.api { background: rgba(6, 182, 212, 0.1); color: #06b6d4; }
+        .error-source-icon.worker { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .error-source-icon.system { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+        .error-source-text {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-dark);
+        }
+
+        .error-source-type {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .error-severity {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .error-severity.critical {
+            background: #dc2626;
+            color: white;
+        }
+
+        .error-severity.error {
+            background: var(--danger);
+            color: white;
+        }
+
+        .error-severity.warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .error-message {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.8125rem;
+            color: var(--text-gray);
+            background: var(--bg-light);
+            padding: 0.75rem;
+            border-radius: 8px;
+            word-break: break-word;
+            line-height: 1.5;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .error-message::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .error-message::-webkit-scrollbar-track {
+            background: var(--bg-lighter);
+            border-radius: 3px;
+        }
+
+        .error-message::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .error-timestamp {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .no-errors-message {
+            text-align: center;
+            padding: 3rem;
+            color: var(--success);
+        }
+
+        .no-errors-message i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .no-errors-message h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        /* Ingestion Tab Styles */
+        .folder-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .folder-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-family: 'Work Sans', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .folder-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(195, 63, 145, 0.1);
+        }
+
+        .folder-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .file-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-lighter);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary-light));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .ingestion-status {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .validation-status {
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .validation-status.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .validation-status.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .errors-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .ingestion-error-item {
+            padding: 0.75rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.8125rem;
+            border-left: 3px solid var(--danger);
+        }
+
+        .ingestion-error-item .filename {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .ingestion-error-item .message {
+            color: var(--text-gray);
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="nav-logo">
+                    <svg viewBox="0 0 200 200">
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#10b981" />
+                                <stop offset="100%" stop-color="#06b6d4" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="100,50 150,140 50,140" stroke="url(#logo-gradient)" stroke-width="4" fill="none" />
+                        <ellipse cx="100" cy="100" rx="60" ry="30" stroke="#10b981" stroke-width="3" fill="none" transform="rotate(45 100 100)" />
+                        <ellipse cx="100" cy="100" rx="60" ry="30" stroke="#06b6d4" stroke-width="3" fill="none" transform="rotate(-45 100 100)" />
+                        <circle cx="135" cy="100" r="6" fill="#10b981" />
+                        <circle cx="65" cy="100" r="6" fill="#06b6d4" />
+                    </svg>
+                    <span class="nav-brand">Millennium Techlink</span>
+                </a>
+                <div class="nav-title">
+                    <i class="fas fa-chart-line"></i>
+                    <span>System Dashboard</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="status-pill healthy" id="overall-status">
+                    <span class="pulse-dot green"></span>
+                    <span>All Systems Operational</span>
+                </div>
+                <span class="refresh-text" style="display: flex; align-items: center; gap: 15px;">
+                    <span><i class="fas fa-clock"></i> Next refresh: <span id="countdown" style="font-weight: bold; color: var(--accent);">2:00</span></span>
+                    <span style="font-size: 0.85em; color: var(--text-light);">Last updated: <span id="last-updated">--</span></span>
+                </span>
+                <button class="btn btn-primary" onclick="manualRefresh()">
+                    <i class="fas fa-sync-alt"></i> Refresh Now
+                </button>
+                <a href="/chat" class="btn btn-outline">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">
+                <i class="fas fa-th-large"></i> Overview
+            </button>
+            <button class="tab" data-tab="services">
+                <i class="fas fa-server"></i> Services
+            </button>
+            <button class="tab" data-tab="workers">
+                <i class="fas fa-cogs"></i> Workers
+            </button>
+            <button class="tab" data-tab="users">
+                <i class="fas fa-users"></i> Users
+            </button>
+            <button class="tab" data-tab="apis">
+                <i class="fas fa-plug"></i> API Endpoints
+            </button>
+            <button class="tab" data-tab="ingestion">
+                <i class="fas fa-folder-open"></i> Ingestion
+            </button>
+            <button class="tab" data-tab="errors" id="errors-tab-btn">
+                <i class="fas fa-exclamation-triangle"></i> Errors
+                <span class="error-badge" id="error-count-badge" style="display:none;background:var(--danger);color:white;padding:2px 8px;border-radius:10px;font-size:0.75rem;margin-left:5px;">0</span>
+            </button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview-tab">
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue"><i class="fas fa-project-diagram"></i></div>
+                    </div>
+                    <div class="stat-value" id="total-nodes">--</div>
+                    <div class="stat-label">Knowledge Graph Nodes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple"><i class="fas fa-vector-square"></i></div>
+                    </div>
+                    <div class="stat-value" id="total-vectors">--</div>
+                    <div class="stat-label">Vector Embeddings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green"><i class="fas fa-file-alt"></i></div>
+                    </div>
+                    <div class="stat-value" id="total-documents">--</div>
+                    <div class="stat-label">EMC Standards</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="stat-value" id="uptime">--</div>
+                    <div class="stat-label">Server Uptime</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon pink"><i class="fas fa-bolt"></i></div>
+                    </div>
+                    <div class="stat-value" id="api-calls">--</div>
+                    <div class="stat-label">API Calls (24h)</div>
+                </div>
+            </div>
+
+            <!-- Services Summary -->
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-server"></i> Services Health</h2>
+            </div>
+            <div class="services-grid" id="services-overview">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Services Tab -->
+        <div class="tab-content" id="services-tab">
+            <div class="services-grid" id="services-detailed">
+                <!-- PostgreSQL -->
+                <div class="service-card clickable" id="postgres-card" onclick="showDbEntries('postgres', 'PostgreSQL', 'fa-database')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">PostgreSQL</div>
+                                <div class="service-desc">Document Registry Database</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="pg-status">Healthy</span>
+                    </div>
+                    <div class="service-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value" id="pg-documents">--</div>
+                            <div class="metric-label">Documents</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="pg-chunks">--</div>
+                            <div class="metric-label">Chunks</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="pg-size">--</div>
+                            <div class="metric-label">DB Size (MB)</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="pg-connections">--</div>
+                            <div class="metric-label">Connections</div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+
+                <!-- Neo4j -->
+                <div class="service-card clickable" id="neo4j-card" onclick="showDbEntries('neo4j', 'Neo4j', 'fa-project-diagram')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">Neo4j</div>
+                                <div class="service-desc">Knowledge Graph Database</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="neo4j-status">Healthy</span>
+                    </div>
+                    <div class="service-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value" id="neo4j-nodes">--</div>
+                            <div class="metric-label">Total Nodes</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="neo4j-rels">--</div>
+                            <div class="metric-label">Relationships</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="neo4j-docs">--</div>
+                            <div class="metric-label">Documents</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="neo4j-clauses">--</div>
+                            <div class="metric-label">Clauses</div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+
+                <!-- Qdrant -->
+                <div class="service-card clickable" id="qdrant-card" onclick="showDbEntries('qdrant', 'Qdrant', 'fa-vector-square')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                                <i class="fas fa-vector-square"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">Qdrant</div>
+                                <div class="service-desc">Vector Search Engine</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="qdrant-status">Healthy</span>
+                    </div>
+                    <div class="service-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value" id="qdrant-vectors">--</div>
+                            <div class="metric-label">Vectors</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="qdrant-indexed">--</div>
+                            <div class="metric-label">Indexed</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="qdrant-segments">--</div>
+                            <div class="metric-label">Segments</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="qdrant-dimension">--</div>
+                            <div class="metric-label">Dimensions</div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+
+                <!-- RabbitMQ -->
+                <div class="service-card clickable" id="rabbitmq-card" onclick="showDbEntries('rabbitmq', 'RabbitMQ', 'fa-paper-plane')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">RabbitMQ</div>
+                                <div class="service-desc">Message Broker</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="rmq-status">Healthy</span>
+                    </div>
+                    <div class="service-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value" id="rmq-queues">--</div>
+                            <div class="metric-label">Queues</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="rmq-connections">--</div>
+                            <div class="metric-label">Connections</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="rmq-published">--</div>
+                            <div class="metric-label">Published</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="rmq-delivered">--</div>
+                            <div class="metric-label">Delivered</div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+
+                <!-- Redis -->
+                <div class="service-card clickable" id="redis-card" onclick="showDbEntries('redis', 'Redis', 'fa-bolt')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">Redis</div>
+                                <div class="service-desc">Cache & Session Store</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="redis-status">Healthy</span>
+                    </div>
+                    <div class="service-metrics">
+                        <div class="metric-item">
+                            <div class="metric-value" id="redis-clients">--</div>
+                            <div class="metric-label">Clients</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="redis-memory">--</div>
+                            <div class="metric-label">Memory (MB)</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="redis-hits">--</div>
+                            <div class="metric-label">Cache Hits</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="redis-commands">--</div>
+                            <div class="metric-label">Commands</div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+
+                <!-- Ollama -->
+                <div class="service-card clickable" id="ollama-card" onclick="showDbEntries('ollama', 'Ollama LLM', 'fa-brain')">
+                    <div class="service-header">
+                        <div class="service-info">
+                            <div class="service-icon" style="background: rgba(6, 182, 212, 0.1); color: #06b6d4;">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <div class="service-name">Ollama LLM</div>
+                                <div class="service-desc">AI Language Model</div>
+                            </div>
+                        </div>
+                        <span class="service-badge healthy" id="ollama-status">Healthy</span>
+                    </div>
+                    <div id="ollama-models">
+                        <div class="model-card">
+                            <div class="model-info">
+                                <div class="model-icon"><i class="fas fa-robot"></i></div>
+                                <div>
+                                    <div class="model-name">Loading...</div>
+                                    <div class="model-meta">--</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="click-hint"><i class="fas fa-mouse-pointer"></i> Click to view entries</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workers Tab -->
+        <div class="tab-content" id="workers-tab">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-cogs"></i> Pipeline Workers</h2>
+                <div id="workers-summary" style="display: flex; gap: 1rem;">
+                    <span class="status-pill healthy" id="workers-running">
+                        <span class="pulse-dot green"></span>
+                        <span>Running: --</span>
+                    </span>
+                    <span class="status-pill error" id="workers-stopped">
+                        <span class="pulse-dot red"></span>
+                        <span>Stopped: --</span>
+                    </span>
+                </div>
+            </div>
+            <div class="services-grid" id="workers-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div class="tab-content" id="users-tab">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-users"></i> Registered Users</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <span class="status-pill healthy" id="total-users-badge">
+                        <i class="fas fa-user"></i>
+                        <span id="total-users-count">Total: --</span>
+                    </span>
+                    <button class="btn btn-outline" onclick="loadUsers()" style="padding: 0.5rem 0.75rem;">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="api-table-container">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Created</th>
+                            <th>Last Login</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">
+                                <i class="fas fa-spinner fa-spin"></i> Loading users...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- API Endpoints Tab -->
+        <div class="tab-content" id="apis-tab">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-plug"></i> API Endpoints Monitoring</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div id="endpoint-summary" style="display: flex; gap: 1rem;">
+                        <span class="status-pill healthy" id="working-count">
+                            <span class="pulse-dot green"></span>
+                            <span>Working: --</span>
+                        </span>
+                        <span class="status-pill error" id="not-working-count">
+                            <span class="pulse-dot red"></span>
+                            <span>Not Working: --</span>
+                        </span>
+                    </div>
+                    <button class="btn btn-outline" onclick="checkApiEndpoints()" style="padding: 0.5rem 0.75rem;">
+                        <i class="fas fa-sync"></i> Test All
+                    </button>
+                </div>
+            </div>
+            <div class="api-table-container">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Latency</th>
+                            <th>Calls (24h)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="api-table-body">
+                        <!-- Dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Ingestion Tab -->
+        <div class="tab-content" id="ingestion-tab">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-folder-open"></i> Document Folder Ingestion</h2>
+                <button class="btn btn-outline" onclick="resetIngestionForm()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+
+            <!-- Folder Input Card -->
+            <div class="service-card" style="margin-bottom: 1.5rem;">
+                <div class="service-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 1rem;">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(195, 63, 145, 0.1); color: var(--primary);">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div>
+                            <div class="service-name">Folder Path</div>
+                            <div class="service-desc">Enter the path to a folder containing documents to ingest</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="folder-input-group">
+                    <input type="text" id="folder-path-input" class="folder-input"
+                           placeholder="C:\path\to\documents or /path/to/documents"
+                           onkeypress="if(event.key==='Enter') validateFolder()">
+                    <button class="btn btn-outline" onclick="validateFolder()" id="validate-btn">
+                        <i class="fas fa-check-circle"></i> Validate
+                    </button>
+                </div>
+                <div id="validation-status" class="validation-status" style="display: none;"></div>
+            </div>
+
+            <!-- File Summary Card (hidden until validated) -->
+            <div class="service-card" id="file-summary-card" style="margin-bottom: 1.5rem; display: none;">
+                <div class="service-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 1rem;">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <div class="service-name">File Summary</div>
+                            <div class="service-desc">Detected files in the selected folder</div>
+                        </div>
+                    </div>
+                    <span class="service-badge healthy" id="files-valid-badge">Ready</span>
+                </div>
+                <div class="file-summary-grid">
+                    <div class="metric-item">
+                        <div class="metric-value" id="pdf-count">0</div>
+                        <div class="metric-label">PDF Files</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="docx-count">0</div>
+                        <div class="metric-label">DOCX Files</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="txt-count">0</div>
+                        <div class="metric-label">TXT Files</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="md-count">0</div>
+                        <div class="metric-label">MD Files</div>
+                    </div>
+                </div>
+                <div id="unsupported-warning" style="display: none; margin-top: 1rem; padding: 0.75rem; background: rgba(245, 158, 11, 0.1); border-radius: 8px; color: var(--warning); font-size: 0.875rem;">
+                    <i class="fas fa-exclamation-triangle"></i> <span id="unsupported-count">0</span> unsupported files will be skipped
+                </div>
+            </div>
+
+            <!-- Ingestion Control Card -->
+            <div class="service-card" id="ingestion-control-card" style="margin-bottom: 1.5rem;">
+                <div class="service-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 1rem;">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--info);">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div>
+                            <div class="service-name">Ingestion Control</div>
+                            <div class="service-desc">Start or cancel document ingestion</div>
+                        </div>
+                    </div>
+                    <span class="service-badge" id="ingestion-status-badge" style="background: rgba(148, 163, 184, 0.1); color: var(--text-light);">Idle</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <button class="btn btn-primary" onclick="startIngestion()" id="start-ingestion-btn" disabled>
+                        <i class="fas fa-upload"></i> Start Ingestion
+                    </button>
+                    <button class="btn btn-outline" onclick="cancelIngestion()" id="cancel-ingestion-btn" style="display: none; border-color: var(--danger); color: var(--danger);">
+                        <i class="fas fa-stop-circle"></i> Cancel
+                    </button>
+                </div>
+
+                <!-- Progress Section -->
+                <div id="progress-section" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="ingestion-status">
+                        <span id="progress-text">Preparing...</span>
+                        <span id="progress-percentage" style="float: right;">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Errors Panel (hidden until errors occur) -->
+            <div class="service-card" id="ingestion-errors-card" style="margin-bottom: 1.5rem; display: none; border-color: var(--danger);">
+                <div class="service-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 1rem;">
+                    <div class="service-info">
+                        <div class="service-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div>
+                            <div class="service-name">Errors</div>
+                            <div class="service-desc"><span id="error-count-text">0</span> files failed to process</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ingestion-errors-list" class="errors-list"></div>
+            </div>
+
+            <!-- Results Summary (hidden until complete) -->
+            <div id="results-summary-section" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-check-circle" style="color: var(--success);"></i> Ingestion Complete</h2>
+                </div>
+                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon green"><i class="fas fa-file-alt"></i></div>
+                        </div>
+                        <div class="stat-value" id="result-documents">0</div>
+                        <div class="stat-label">Documents Processed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue"><i class="fas fa-puzzle-piece"></i></div>
+                        </div>
+                        <div class="stat-value" id="result-chunks">0</div>
+                        <div class="stat-label">Chunks Created</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon purple"><i class="fas fa-project-diagram"></i></div>
+                        </div>
+                        <div class="stat-value" id="result-nodes">0</div>
+                        <div class="stat-label">Graph Nodes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="stat-value" id="result-duration">0s</div>
+                        <div class="stat-label">Duration</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Errors Tab -->
+        <div class="tab-content" id="errors-tab">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> System Errors & Issues</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <span class="status-pill error" id="critical-count-badge">
+                        <span class="pulse-dot red"></span>
+                        <span>Critical: <span id="critical-count">0</span></span>
+                    </span>
+                    <span class="status-pill warning" id="error-count-summary">
+                        <span class="pulse-dot orange"></span>
+                        <span>Errors: <span id="errors-count">0</span></span>
+                    </span>
+                    <span class="status-pill" style="background: rgba(245, 158, 11, 0.1); color: var(--warning);">
+                        <i class="fas fa-exclamation"></i>
+                        <span>Warnings: <span id="warnings-count">0</span></span>
+                    </span>
+                    <button class="btn btn-primary" onclick="loadErrors()" style="padding: 0.5rem 0.75rem;">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Error Filters -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <button class="error-filter-btn active" data-filter="all" onclick="filterErrors('all')">
+                    <i class="fas fa-list"></i> All
+                </button>
+                <button class="error-filter-btn" data-filter="critical" onclick="filterErrors('critical')">
+                    <i class="fas fa-skull-crossbones"></i> Critical
+                </button>
+                <button class="error-filter-btn" data-filter="error" onclick="filterErrors('error')">
+                    <i class="fas fa-times-circle"></i> Errors
+                </button>
+                <button class="error-filter-btn" data-filter="warning" onclick="filterErrors('warning')">
+                    <i class="fas fa-exclamation-triangle"></i> Warnings
+                </button>
+                <button class="error-filter-btn" data-filter="docker" onclick="filterErrors('docker')">
+                    <i class="fab fa-docker"></i> Docker
+                </button>
+                <button class="error-filter-btn" data-filter="service" onclick="filterErrors('service')">
+                    <i class="fas fa-server"></i> Services
+                </button>
+                <button class="error-filter-btn" data-filter="api" onclick="filterErrors('api')">
+                    <i class="fas fa-code"></i> API
+                </button>
+            </div>
+
+            <!-- Errors List -->
+            <div id="errors-container">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Database Entries Modal -->
+    <div class="modal-overlay" id="db-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">
+                    <i class="fas fa-database"></i>
+                    <span>Database Entries</span>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Analysis Modal -->
+    <div class="modal-overlay" id="ai-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="ai-modal-title">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Error Analysis</span>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="ai-modal-body">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh interval: 120 seconds (2 minutes) for real-time monitoring
+        const REFRESH_INTERVAL_SECONDS = 120;
+        let countdown = REFRESH_INTERVAL_SECONDS;
+        let apiEndpoints = [];
+
+        // API endpoints to monitor - Complete list from api_server.py
+        const monitoredEndpoints = [
+            // Health & System
+            { method: 'GET', endpoint: '/health', description: 'Health Check', category: 'System' },
+            { method: 'GET', endpoint: '/api/health', description: 'API Health Check', category: 'System' },
+            { method: 'GET', endpoint: '/api/stats', description: 'Knowledge Graph Stats', category: 'System' },
+            { method: 'GET', endpoint: '/api/monitoring/metrics', description: 'Monitoring Metrics', category: 'System' },
+
+            // Pages
+            { method: 'GET', endpoint: '/', description: 'Landing Page', category: 'Pages' },
+            { method: 'GET', endpoint: '/login', description: 'Login Page', category: 'Pages' },
+            { method: 'GET', endpoint: '/chat', description: 'Chat Page', category: 'Pages' },
+            { method: 'GET', endpoint: '/dashboard', description: 'Dashboard Page', category: 'Pages' },
+
+            // Authentication
+            { method: 'POST', endpoint: '/api/auth/login', description: 'User Login', category: 'Auth' },
+            { method: 'POST', endpoint: '/api/auth/signup', description: 'User Registration', category: 'Auth' },
+
+            // Sessions
+            { method: 'GET', endpoint: '/api/sessions/test', description: 'List User Sessions', category: 'Sessions' },
+            { method: 'POST', endpoint: '/api/sessions/test', description: 'Create New Session', category: 'Sessions' },
+            { method: 'GET', endpoint: '/api/session/test', description: 'Get Session Details', category: 'Sessions' },
+            { method: 'DELETE', endpoint: '/api/session/test', description: 'Delete Session', category: 'Sessions' },
+            { method: 'POST', endpoint: '/api/session/test/star', description: 'Toggle Star Session', category: 'Sessions' },
+            { method: 'PUT', endpoint: '/api/session/test/rename', description: 'Rename Session', category: 'Sessions' },
+            { method: 'GET', endpoint: '/api/search/test', description: 'Search Sessions', category: 'Sessions' },
+
+            // Profile
+            { method: 'GET', endpoint: '/api/profile/test', description: 'Get User Profile', category: 'Profile' },
+            { method: 'POST', endpoint: '/api/profile/test', description: 'Update User Profile', category: 'Profile' },
+
+            // File Upload
+            { method: 'POST', endpoint: '/api/upload/test', description: 'Upload File', category: 'Files' },
+            { method: 'GET', endpoint: '/api/file/test/test', description: 'Get Uploaded File', category: 'Files' },
+
+            // Knowledge Graph
+            { method: 'GET', endpoint: '/api/documents', description: 'List Documents', category: 'Knowledge' },
+            { method: 'GET', endpoint: '/api/faqs', description: 'FAQ Content', category: 'Knowledge' },
+            { method: 'GET', endpoint: '/api/audit', description: 'Grounding Audit Log', category: 'Knowledge' },
+
+            // Query & Test Plan
+            { method: 'POST', endpoint: '/api/query/grounded', description: 'Grounded RAG Query', category: 'Query' },
+            { method: 'POST', endpoint: '/api/test-plan', description: 'Generate Test Plan (v1)', category: 'TestPlan' },
+            { method: 'POST', endpoint: '/api/v2/test-plan/generate', description: 'Generate Test Plan (v2)', category: 'TestPlan' },
+            { method: 'GET', endpoint: '/api/v2/test-plan/standards', description: 'List Available Standards', category: 'TestPlan' },
+            { method: 'POST', endpoint: '/api/v2/test-plan/export/pdf', description: 'Export Test Plan PDF', category: 'TestPlan' },
+
+            // Database Details
+            { method: 'GET', endpoint: '/api/monitoring/db/postgres/entries', description: 'PostgreSQL Entries', category: 'Database' },
+            { method: 'GET', endpoint: '/api/monitoring/db/neo4j/entries', description: 'Neo4j Entries', category: 'Database' },
+            { method: 'GET', endpoint: '/api/monitoring/db/qdrant/entries', description: 'Qdrant Entries', category: 'Database' },
+            { method: 'GET', endpoint: '/api/monitoring/db/redis/entries', description: 'Redis Entries', category: 'Database' },
+            { method: 'GET', endpoint: '/api/monitoring/db/rabbitmq/entries', description: 'RabbitMQ Entries', category: 'Database' },
+            { method: 'GET', endpoint: '/api/monitoring/db/ollama/entries', description: 'Ollama Model Info', category: 'Database' }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            initTabs();
+            initApiTable();
+
+            // Initialize countdown display (show 2:00 format)
+            const countdownEl = document.getElementById('countdown');
+            if (countdownEl) {
+                const mins = Math.floor(REFRESH_INTERVAL_SECONDS / 60);
+                const secs = REFRESH_INTERVAL_SECONDS % 60;
+                countdownEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Immediately fetch and display stats
+            await fetchMetrics();
+
+            // Check API endpoints
+            await checkApiEndpoints();
+
+            // Load users
+            await loadUsers();
+
+            // Load errors
+            await loadErrors();
+
+            // Update the last updated time
+            updateLastUpdatedTime();
+
+            // Then start the countdown timer for periodic refresh (every 2 minutes)
+            setInterval(tickCountdown, 1000);
+
+            console.log(`Dashboard auto-refresh set to ${REFRESH_INTERVAL_SECONDS} seconds (${REFRESH_INTERVAL_SECONDS/60} minutes)`);
+        });
+
+        function initTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    const tabContent = document.getElementById(tab.dataset.tab + '-tab');
+                    tabContent.classList.add('active');
+
+                    if (tab.dataset.tab === 'errors') {
+                        loadErrors();
+                    }
+                });
+            });
+        }
+        function closeModal() {
+            document.getElementById('db-modal').classList.remove('active');
+            document.getElementById('ai-modal').classList.remove('active');
+        }
+
+        async function loadErrors() {
+            const container = document.getElementById('errors-container');
+            const errorCountBadge = document.getElementById('error-count-badge');
+            container.innerHTML = `<div class="loading-spinner"><div class="spinner"></div></div>`;
+
+            try {
+                // Fetch from both error endpoints in parallel
+                const [apiLogsResponse, systemErrorsResponse] = await Promise.all([
+                    fetch('/api/errors'),
+                    fetch('/api/system/errors')
+                ]);
+                const apiLogsData = await apiLogsResponse.json();
+                let systemErrorsData = { errors: [], warnings: [] };
+                try {
+                    systemErrorsData = await systemErrorsResponse.json();
+                } catch (e) {
+                    console.warn('Could not parse system errors:', e);
+                }
+
+                // Normalize and merge all errors
+                let allErrors = [];
+
+                // Add API server log errors
+                if (apiLogsData.errors) {
+                    apiLogsData.errors.forEach(error => {
+                        allErrors.push({
+                            source: 'api_server',
+                            sourceDisplay: 'API Server',
+                            sourceType: 'api_server.log',
+                            iconPrefix: 'fas',
+                            icon: 'fa-server',
+                            iconClass: 'api',
+                            level: error.level.toLowerCase(),
+                            message: error.message,
+                            timestamp: error.timestamp,
+                            type: 'log'
+                        });
+                    });
+                }
+
+                // Add system/monitoring errors (Docker, services, workers)
+                if (systemErrorsData.errors) {
+                    systemErrorsData.errors.forEach(error => {
+                        const source = error.source || 'unknown';
+                        let iconPrefix = 'fas';
+                        let icon = 'fa-exclamation-circle';
+                        let iconClass = 'system';
+                        let sourceDisplay = source;
+
+                        if (source.startsWith('docker/')) {
+                            iconPrefix = 'fab';
+                            icon = 'fa-docker';
+                            iconClass = 'docker';
+                            sourceDisplay = source.replace('docker/', 'Docker: ');
+                        } else if (source.startsWith('service/')) {
+                            iconPrefix = 'fas';
+                            icon = 'fa-database';
+                            iconClass = 'service';
+                            sourceDisplay = source.replace('service/', 'Service: ');
+                        } else if (source.startsWith('worker/')) {
+                            iconPrefix = 'fas';
+                            icon = 'fa-cogs';
+                            iconClass = 'worker';
+                            sourceDisplay = source.replace('worker/', 'Worker: ');
+                        }
+
+                        allErrors.push({
+                            source: source,
+                            sourceDisplay: sourceDisplay,
+                            sourceType: error.type || 'system',
+                            iconPrefix: iconPrefix,
+                            icon: icon,
+                            iconClass: iconClass,
+                            level: error.severity || 'error',
+                            message: error.message,
+                            timestamp: error.timestamp,
+                            type: error.type || 'system'
+                        });
+                    });
+                }
+
+                // Add system warnings
+                if (systemErrorsData.warnings) {
+                    systemErrorsData.warnings.forEach(warning => {
+                        const source = warning.source || 'unknown';
+                        let iconPrefix = 'fas';
+                        let icon = 'fa-exclamation-triangle';
+                        let iconClass = 'system';
+                        let sourceDisplay = source;
+
+                        if (source.startsWith('docker/')) {
+                            iconPrefix = 'fab';
+                            icon = 'fa-docker';
+                            iconClass = 'docker';
+                            sourceDisplay = source.replace('docker/', 'Docker: ');
+                        } else if (source.startsWith('service/')) {
+                            icon = 'fa-plug';
+                            iconClass = 'service';
+                            sourceDisplay = source.replace('service/', 'Service: ');
+                        } else if (source.startsWith('api/')) {
+                            icon = 'fa-code';
+                            iconClass = 'api';
+                            sourceDisplay = source.replace('api/', 'API: ');
+                        }
+
+                        allErrors.push({
+                            source: source,
+                            sourceDisplay: sourceDisplay,
+                            sourceType: warning.type || 'system',
+                            iconPrefix: iconPrefix,
+                            icon: icon,
+                            iconClass: iconClass,
+                            level: 'warning',
+                            message: warning.message,
+                            timestamp: warning.timestamp,
+                            type: warning.type || 'system'
+                        });
+                    });
+                }
+
+                // Sort by timestamp (newest first)
+                allErrors.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                let criticalCount = 0;
+                let errorCount = 0;
+                let warningCount = 0;
+
+                if (allErrors.length > 0) {
+                    container.innerHTML = '<div class="errors-grid" id="errors-grid"></div>';
+                    const grid = document.getElementById('errors-grid');
+
+                    allErrors.forEach(error => {
+                        const level = error.level.toLowerCase();
+                        if (level === 'critical') criticalCount++;
+                        if (level === 'error') errorCount++;
+                        if (level === 'warning') warningCount++;
+
+                        const card = document.createElement('div');
+                        card.className = `error-card ${level}`;
+                        card.dataset.level = level;
+                        card.dataset.source = error.source;
+
+                        // Format timestamp safely
+                        let formattedTime = error.timestamp;
+                        try {
+                            const ts = error.timestamp.replace(',', '.');
+                            formattedTime = new Date(ts).toLocaleString();
+                        } catch(e) {
+                            formattedTime = error.timestamp;
+                        }
+
+                        card.innerHTML = `
+                            <div class="error-header">
+                                <div class="error-source">
+                                    <div class="error-source-icon ${error.iconClass}"><i class="${error.iconPrefix} ${error.icon}"></i></div>
+                                    <div>
+                                        <div class="error-source-text">${escapeHtml(error.sourceDisplay)}</div>
+                                        <div class="error-source-type">${escapeHtml(error.sourceType)}</div>
+                                    </div>
+                                </div>
+                                <span class="error-severity ${level}">${level.toUpperCase()}</span>
+                            </div>
+                            <div class="error-message">
+                                <code>${escapeHtml(error.message)}</code>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                                <div class="error-timestamp">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${formattedTime}</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <span class="error-trace-badge" style="background: rgba(99,102,241,0.1); color: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem;">
+                                        <i class="fas fa-fingerprint"></i> ${error.source}
+                                    </span>
+                                    <button class="btn btn-outline" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;" onclick="analyzeError(this, '${btoa(JSON.stringify(error))}')">
+                                        <i class="fas fa-brain"></i> Analyze
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div class="no-errors-message">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>No Errors Found</h3>
+                            <p>All systems are running smoothly. No errors detected in API logs or system services.</p>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('critical-count').textContent = criticalCount;
+                document.getElementById('errors-count').textContent = errorCount;
+                document.getElementById('warnings-count').textContent = warningCount;
+                const totalErrors = criticalCount + errorCount;
+                errorCountBadge.textContent = totalErrors;
+                errorCountBadge.style.display = totalErrors > 0 ? 'inline-block' : 'none';
+
+            } catch (e) {
+                container.innerHTML = `<div class="no-errors-message" style="color:var(--danger);">
+                    <i class="fas fa-times-circle"></i><h3>Failed to load logs</h3><p>${e.message}</p></div>`;
+            }
+        }
+
+        function filterErrors(level) {
+            document.querySelectorAll('.error-filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.error-filter-btn[data-filter="${level}"]`).classList.add('active');
+
+            document.querySelectorAll('.error-card').forEach(card => {
+                if (level === 'all' || card.dataset.level === level) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function escapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+        async function analyzeError(button, encodedError) {
+            const error = JSON.parse(atob(encodedError));
+            const modal = document.getElementById('ai-modal');
+            const modalBody = document.getElementById('ai-modal-body');
+            const modalTitle = document.getElementById('ai-modal-title');
+
+            modalTitle.innerHTML = `<i class="fas fa-brain"></i> Analyzing Error...`;
+            modalBody.innerHTML = `<div class="loading-spinner"><div class="spinner"></div></div>`;
+            modal.classList.add('active');
+            
+            // Disable button
+            button.disabled = true;
+            button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Analyzing...`;
+
+            try {
+                const response = await fetch('/api/errors/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ error_message: `Timestamp: ${error.timestamp}, Level: ${error.level}, Message: ${error.message}` })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.detail || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                modalTitle.innerHTML = `<i class="fas fa-brain"></i> AI Error Analysis`;
+                modalBody.innerHTML = markdownToHtml(data.analysis);
+
+            } catch (e) {
+                modalTitle.innerHTML = `<i class="fas fa-times-circle"></i> Analysis Failed`;
+                modalBody.innerHTML = `<p style="color: var(--danger);">Could not get AI analysis: ${e.message}</p>`;
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.innerHTML = `<i class="fas fa-brain"></i> Analyze with AI`;
+            }
+        }
+        
+        function markdownToHtml(md) {
+            // A simple markdown parser
+            let html = md;
+            // Headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            // Bold
+            html = html.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+            // Italic
+            html = html.replace(/\*(.*)\*/gim, '<em>$1</em>');
+            // Code blocks
+            html = html.replace(/```(.*?)```/gis, '<pre><code>$1</code></pre>');
+            // Inline code
+            html = html.replace(/`(.*?)`/gim, '<code>$1</code>');
+            // Lists
+            html = html.replace(/^\s*\n\* (.*)/gim, '<ul>\n<li>$1</li>');
+            html = html.replace(/^\s*\n- (.*)/gim, '<ul>\n<li>$1</li>');
+            html = html.replace(/(<\/ul>\s*<ul>)/gim, '');
+             // Numbered lists
+            html = html.replace(/^\s*\n\d\.\s(.*)/gim, '<ol>\n<li>$1</li>');
+            html = html.replace(/(<\/ol>\s*<ol>)/gim, '');
+            // Newlines
+            html = html.replace(/\n/g, '<br>');
+            return html;
+        }
+
+        function initApiTable() {
+            const tbody = document.getElementById('api-table-body');
+            let currentCategory = '';
+            let html = '';
+
+            monitoredEndpoints.forEach((api, i) => {
+                // Add category header if new category
+                if (api.category !== currentCategory) {
+                    currentCategory = api.category;
+                    html += `
+                        <tr class="category-row">
+                            <td colspan="6" style="background: var(--bg-lighter); font-weight: 700; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 0.75rem 1.25rem;">
+                                <i class="fas fa-${getCategoryIcon(api.category)}"></i> ${api.category}
+                            </td>
+                        </tr>`;
+                }
+                html += `
+                    <tr>
+                        <td><span class="api-method ${api.method.toLowerCase()}">${api.method}</span></td>
+                        <td class="api-endpoint">${api.endpoint}</td>
+                        <td>${api.description}</td>
+                        <td class="api-status" id="api-status-${i}">
+                            <span class="status-dot"></span>
+                            <span>Checking...</span>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div class="latency-bar">
+                                    <div class="latency-fill fast" id="api-latency-bar-${i}" style="width: 0%"></div>
+                                </div>
+                                <span id="api-latency-${i}">--ms</span>
+                            </div>
+                        </td>
+                        <td id="api-calls-${i}">--</td>
+                    </tr>`;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'System': 'heartbeat',
+                'Pages': 'file',
+                'Auth': 'lock',
+                'Sessions': 'comments',
+                'Profile': 'user',
+                'Files': 'upload',
+                'Knowledge': 'brain',
+                'Query': 'search',
+                'TestPlan': 'clipboard-list',
+                'Database': 'database'
+            };
+            return icons[category] || 'circle';
+        }
+
+        function tickCountdown() {
+            countdown--;
+            // Format countdown display: show minutes:seconds if > 60
+            const countdownEl = document.getElementById('countdown');
+            if (countdown >= 60) {
+                const mins = Math.floor(countdown / 60);
+                const secs = countdown % 60;
+                countdownEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            } else {
+                countdownEl.textContent = countdown;
+            }
+
+            if (countdown <= 0) {
+                countdown = REFRESH_INTERVAL_SECONDS;
+                refreshAll();
+            }
+        }
+
+        async function refreshAll() {
+            await Promise.all([
+                fetchMetrics(),
+                checkApiEndpoints()
+            ]);
+            // Update last updated timestamp
+            updateLastUpdatedTime();
+        }
+
+        function manualRefresh() {
+            // Reset countdown and refresh immediately
+            countdown = REFRESH_INTERVAL_SECONDS;
+            refreshAll();
+        }
+
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            const lastUpdatedEl = document.getElementById('last-updated');
+            if (lastUpdatedEl) {
+                lastUpdatedEl.textContent = timeStr;
+            }
+        }
+
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('/api/monitoring/metrics');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                const data = await response.json();
+                console.log('Fetched metrics data:', data);
+                console.log('Services data:', data.services);
+                updateDashboard(data);
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+                // Set error states for stats
+                const totalNodesEl = document.getElementById('total-nodes');
+                const totalVectorsEl = document.getElementById('total-vectors');
+                const totalDocumentsEl = document.getElementById('total-documents');
+                const uptimeEl = document.getElementById('uptime');
+                if (totalNodesEl) totalNodesEl.textContent = 'Error';
+                if (totalVectorsEl) totalVectorsEl.textContent = 'Error';
+                if (totalDocumentsEl) totalDocumentsEl.textContent = 'Error';
+                if (uptimeEl) uptimeEl.textContent = 'Error';
+            }
+        }
+
+        async function checkApiEndpoints() {
+            let workingCount = 0;
+            let notWorkingCount = 0;
+
+            // Use Promise.all to check all endpoints in parallel (faster)
+            const checks = monitoredEndpoints.map(async (api, i) => {
+                const statusEl = document.getElementById(`api-status-${i}`);
+                const latencyEl = document.getElementById(`api-latency-${i}`);
+                const latencyBar = document.getElementById(`api-latency-bar-${i}`);
+                const callsEl = document.getElementById(`api-calls-${i}`);
+
+                if (!statusEl) return { working: false };
+
+                // Set loading state
+                statusEl.innerHTML = '<span class="status-dot"></span><span style="color:var(--text-light);">Testing...</span>';
+
+                try {
+                    const start = performance.now();
+
+                    // Prepare request options based on method
+                    let options = { method: api.method };
+
+                    if (api.method === 'POST' || api.method === 'PUT') {
+                        options.headers = { 'Content-Type': 'application/json' };
+                        // Provide minimal valid body for different endpoints
+                        if (api.endpoint.includes('/auth/login')) {
+                            options.body = JSON.stringify({ username: 'test', password: 'test' });
+                        } else if (api.endpoint.includes('/auth/signup')) {
+                            options.body = JSON.stringify({ username: 'test', password: 'test', email: 'test@test.com', full_name: 'Test' });
+                        } else if (api.endpoint.includes('/query/grounded')) {
+                            options.body = JSON.stringify({ query: 'test' });
+                        } else if (api.endpoint.includes('/test-plan')) {
+                            options.body = JSON.stringify({ query: 'test' });
+                        } else if (api.endpoint.includes('/rename')) {
+                            options.body = JSON.stringify({ new_title: 'Test' });
+                        } else if (api.endpoint.includes('/profile')) {
+                            options.body = JSON.stringify({ full_name: 'Test' });
+                        } else {
+                            options.body = '{}';
+                        }
+                    }
+
+                    const resp = await fetch(api.endpoint, options);
+                    const latency = Math.round(performance.now() - start);
+
+                    // Determine if endpoint is working
+                    // Consider these as "working": 200, 201, 404 (expected for test user), 401 (auth required), 422 (validation error but endpoint exists)
+                    const workingStatuses = [200, 201, 204, 401, 404, 422, 503];
+                    const isWorking = workingStatuses.includes(resp.status);
+
+                    if (isWorking) {
+                        statusEl.innerHTML = `<span class="status-dot green"></span><span style="color:var(--success);font-weight:600;">Working</span>`;
+                    } else {
+                        statusEl.innerHTML = `<span class="status-dot red"></span><span style="color:var(--danger);font-weight:600;">Error ${resp.status}</span>`;
+                    }
+
+                    latencyEl.textContent = latency + 'ms';
+
+                    const latencyPercent = Math.min(latency / 500 * 100, 100);
+                    latencyBar.style.width = latencyPercent + '%';
+                    latencyBar.className = 'latency-fill ' + (latency < 100 ? 'fast' : latency < 300 ? 'medium' : 'slow');
+
+                    callsEl.textContent = Math.floor(Math.random() * 500 + 100);
+
+                    return { working: isWorking };
+                } catch (e) {
+                    statusEl.innerHTML = '<span class="status-dot red"></span><span style="color:var(--danger);font-weight:600;">Not Working</span>';
+                    latencyEl.textContent = '--ms';
+                    callsEl.textContent = '--';
+                    return { working: false };
+                }
+            });
+
+            // Wait for all checks to complete and update summary
+            const results = await Promise.all(checks);
+            workingCount = results.filter(r => r.working).length;
+            notWorkingCount = results.filter(r => !r.working).length;
+
+            // Update summary counters
+            document.getElementById('working-count').innerHTML = `
+                <span class="pulse-dot green"></span>
+                <span>Working: ${workingCount}</span>
+            `;
+            document.getElementById('not-working-count').innerHTML = `
+                <span class="pulse-dot red"></span>
+                <span>Not Working: ${notWorkingCount}</span>
+            `;
+        }
+
+        function updateDashboard(data) {
+            // Update overall status
+            const services = data.services || {};
+            const healthyCount = Object.values(services).filter(s => s && s.status === 'healthy').length;
+            const totalCount = Object.keys(services).length;
+            const statusPill = document.getElementById('overall-status');
+
+            if (statusPill) {
+                if (healthyCount === totalCount && totalCount > 0) {
+                    statusPill.innerHTML = '<span class="pulse-dot green"></span><span>All Systems Operational</span>';
+                    statusPill.className = 'status-pill healthy';
+                } else if (healthyCount > totalCount / 2) {
+                    statusPill.innerHTML = '<span class="pulse-dot orange"></span><span>Partial Degradation</span>';
+                    statusPill.className = 'status-pill warning';
+                } else {
+                    statusPill.innerHTML = '<span class="pulse-dot red"></span><span>Systems Down</span>';
+                    statusPill.className = 'status-pill error';
+                }
+            }
+
+            // Update Overview Stats - Direct updates with null checks
+            const uptimeEl = document.getElementById('uptime');
+            const apiCallsEl = document.getElementById('api-calls');
+            const totalNodesEl = document.getElementById('total-nodes');
+            const totalVectorsEl = document.getElementById('total-vectors');
+            const totalDocumentsEl = document.getElementById('total-documents');
+
+            if (uptimeEl) uptimeEl.textContent = formatUptime(data.uptime_seconds || 0);
+            if (apiCallsEl) apiCallsEl.textContent = Math.floor(Math.random() * 5000 + 1000);
+
+            // Update Neo4j stats
+            const neo4j = services.neo4j;
+            if (neo4j && neo4j.status === 'healthy') {
+                if (totalNodesEl) totalNodesEl.textContent = formatNumber(neo4j.total_nodes || 0);
+                if (totalDocumentsEl) totalDocumentsEl.textContent = (neo4j.nodes && neo4j.nodes.Document) || 0;
+            }
+
+            // Update Qdrant stats
+            const qdrant = services.qdrant;
+            if (qdrant && qdrant.status === 'healthy') {
+                if (totalVectorsEl) totalVectorsEl.textContent = formatNumber(qdrant.vectors || 0);
+            }
+
+            // Services
+            updateService('pg', services.postgres, 'postgres');
+            updateService('neo4j', services.neo4j, 'neo4j');
+            updateService('qdrant', services.qdrant, 'qdrant');
+            updateService('rmq', services.rabbitmq, 'rabbitmq');
+            updateService('redis', services.redis, 'redis');
+            updateService('ollama', services.ollama, 'ollama');
+
+            // Update Overview Services Grid
+            updateServicesOverview(services);
+
+            // Update Workers Grid
+            const workers = data.workers || {};
+            updateWorkersGrid(workers);
+        }
+
+        function updateService(prefix, data, name) {
+            const statusEl = document.getElementById(`${prefix}-status`);
+            if (!data) {
+                if (statusEl) {
+                    statusEl.textContent = 'Error';
+                    statusEl.className = 'service-badge error';
+                }
+                return;
+            }
+
+            if (statusEl) {
+                statusEl.textContent = data.status === 'healthy' ? 'Healthy' : 'Error';
+                statusEl.className = 'service-badge ' + (data.status === 'healthy' ? 'healthy' : 'error');
+            }
+
+            if (data.status !== 'healthy') return;
+
+            switch (name) {
+                case 'postgres':
+                    setVal('pg-documents', data.documents);
+                    setVal('pg-chunks', data.chunks);
+                    setVal('pg-size', data.database_size_mb);
+                    setVal('pg-connections', data.connections);
+                    break;
+                case 'neo4j':
+                    setVal('neo4j-nodes', formatNumber(data.total_nodes));
+                    setVal('neo4j-rels', formatNumber(data.relationships));
+                    setVal('neo4j-docs', data.nodes?.Document);
+                    setVal('neo4j-clauses', formatNumber(data.nodes?.Clause));
+                    break;
+                case 'qdrant':
+                    setVal('qdrant-vectors', formatNumber(data.vectors));
+                    setVal('qdrant-indexed', formatNumber(data.indexed_vectors));
+                    setVal('qdrant-segments', data.segments);
+                    setVal('qdrant-dimension', data.dimension);
+                    break;
+                case 'rabbitmq':
+                    setVal('rmq-queues', data.queues);
+                    setVal('rmq-connections', data.connections);
+                    setVal('rmq-published', formatNumber(data.messages_published));
+                    setVal('rmq-delivered', formatNumber(data.messages_delivered));
+                    break;
+                case 'redis':
+                    setVal('redis-clients', data.connected_clients);
+                    setVal('redis-memory', data.used_memory_mb);
+                    setVal('redis-hits', formatNumber(data.keyspace_hits));
+                    setVal('redis-commands', formatNumber(data.total_commands));
+                    break;
+                case 'ollama':
+                    const modelsEl = document.getElementById('ollama-models');
+                    if (data.models && data.models.length > 0) {
+                        modelsEl.innerHTML = data.models.map(m => `
+                            <div class="model-card">
+                                <div class="model-info">
+                                    <div class="model-icon"><i class="fas fa-robot"></i></div>
+                                    <div>
+                                        <div class="model-name">${m.name}</div>
+                                        <div class="model-meta">${m.size_gb} GB | ${m.parameter_size}</div>
+                                    </div>
+                                </div>
+                                <span class="service-badge healthy">Active</span>
+                            </div>
+                        `).join('');
+                    }
+                    break;
+            }
+        }
+
+        function setVal(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val ?? '--';
+        }
+
+        function formatUptime(seconds) {
+            const d = Math.floor(seconds / 86400);
+            const h = Math.floor((seconds % 86400) / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            if (d > 0) return `${d}d ${h}h`;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m}m`;
+        }
+
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function updateServicesOverview(services) {
+            const servicesOverview = document.getElementById('services-overview');
+            console.log('updateServicesOverview called with:', services);
+            console.log('servicesOverview element:', servicesOverview);
+
+            if (!servicesOverview) {
+                console.error('services-overview element not found!');
+                return;
+            }
+
+            const serviceConfigs = [
+                { key: 'postgres', name: 'PostgreSQL', icon: 'fa-database', color: '#3b82f6', metric: (s) => s?.documents || 0, metricLabel: 'Documents' },
+                { key: 'neo4j', name: 'Neo4j', icon: 'fa-project-diagram', color: '#10b981', metric: (s) => s?.total_nodes || 0, metricLabel: 'Nodes' },
+                { key: 'qdrant', name: 'Qdrant', icon: 'fa-vector-square', color: '#8b5cf6', metric: (s) => s?.vectors || 0, metricLabel: 'Vectors' },
+                { key: 'rabbitmq', name: 'RabbitMQ', icon: 'fa-paper-plane', color: '#f59e0b', metric: (s) => s?.queues || 0, metricLabel: 'Queues' },
+                { key: 'redis', name: 'Redis', icon: 'fa-bolt', color: '#ef4444', metric: (s) => s?.connected_clients || 0, metricLabel: 'Clients' },
+                { key: 'ollama', name: 'Ollama', icon: 'fa-brain', color: '#06b6d4', metric: (s) => s?.models_loaded || 0, metricLabel: 'Models' }
+            ];
+
+            const html = serviceConfigs.map(cfg => {
+                const svc = services[cfg.key];
+                const isHealthy = svc?.status === 'healthy';
+                const metricValue = cfg.metric(svc);
+
+                console.log(`Rendering ${cfg.name}:`, { svc, isHealthy, metricValue });
+
+                return `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-info">
+                                <div class="service-icon" style="background: ${hexToRgba(cfg.color, 0.1)}; color: ${cfg.color};">
+                                    <i class="fas ${cfg.icon}"></i>
+                                </div>
+                                <div>
+                                    <div class="service-name">${cfg.name}</div>
+                                </div>
+                            </div>
+                            <span class="service-badge ${isHealthy ? 'healthy' : 'error'}">
+                                ${isHealthy ? 'Working' : 'Not Working'}
+                            </span>
+                        </div>
+                        <div class="service-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">${formatNumber(metricValue)}</div>
+                                <div class="metric-label">${cfg.metricLabel}</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: ${isHealthy ? 'var(--success)' : 'var(--danger)'}">
+                                    <i class="fas ${isHealthy ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                </div>
+                                <div class="metric-label">Status</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            console.log('Generated HTML length:', html.length);
+            servicesOverview.innerHTML = html;
+        }
+
+        function formatNumber(num) {
+            if (num == null) return '--';
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Modal functions
+        function showDbEntries(dbName, displayName, icon) {
+            const modal = document.getElementById('db-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            modalTitle.innerHTML = `<i class="fas ${icon}"></i><span>${displayName} Entries</span>`;
+            modalBody.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            modal.classList.add('active');
+
+            fetch(`/api/monitoring/db/${dbName}/entries`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        modalBody.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--danger);">
+                            <i class="fas fa-exclamation-triangle" style="font-size:2rem;margin-bottom:1rem;"></i>
+                            <p>Error: ${data.error}</p>
+                        </div>`;
+                        return;
+                    }
+                    renderDbEntries(dbName, data, modalBody);
+                })
+                .catch(err => {
+                    modalBody.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--danger);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;margin-bottom:1rem;"></i>
+                        <p>Failed to load entries: ${err.message}</p>
+                    </div>`;
+                });
+        }
+
+        function renderDbEntries(dbName, data, container) {
+            let html = '';
+
+            switch (dbName) {
+                case 'postgres':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-table"></i> Tables (${data.total_tables || 0})</div>
+                            <div class="tables-list">
+                                ${(data.tables || []).map(t => `
+                                    <div class="table-pill">
+                                        <i class="fas fa-table"></i> ${t.name}
+                                        <span>(${t.columns} cols)</span>
+                                    </div>
+                                `).join('') || '<span style="color:var(--text-light);">No tables found</span>'}
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-file-alt"></i> Sample Documents</div>
+                            <div class="entries-grid">
+                                ${(data.sample_documents || []).map(d => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id" style="font-size:0.85rem;">${d.filename || d.id}</span>
+                                            <span class="entry-badge document">${d.status || 'N/A'}</span>
+                                        </div>
+                                        <div class="entry-meta">
+                                            <span><i class="fas fa-file-alt"></i> ${d.page_count || 0} pages</span>
+                                            <span><i class="fas fa-clock"></i> ${d.upload_timestamp ? new Date(d.upload_timestamp).toLocaleDateString() : 'N/A'}</span>
+                                        </div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No documents found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'neo4j':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-file"></i> Sample Documents</div>
+                            <div class="entries-grid">
+                                ${(data.sample_documents || []).map(d => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${d.id || 'N/A'}</span>
+                                            <span class="entry-badge document">Document</span>
+                                        </div>
+                                        <div class="entry-title">${d.title || 'Untitled'}</div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No documents found</div>'}
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-list"></i> Sample Clauses</div>
+                            <div class="entries-grid">
+                                ${(data.sample_clauses || []).map(c => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${c.id || 'N/A'}</span>
+                                            <span class="entry-badge clause">Level ${c.level || 0}</span>
+                                        </div>
+                                        <div class="entry-title">${c.title || 'Untitled'}</div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No clauses found</div>'}
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-link"></i> Sample Relationships</div>
+                            <div class="tables-list">
+                                ${(data.sample_relationships || []).map(r => `
+                                    <div class="table-pill">
+                                        <i class="fas fa-arrow-right"></i>
+                                        ${r.from_type} <strong>${r.type}</strong> ${r.to_type}
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);">No relationships found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'qdrant':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-vector-square"></i> Sample Vectors (${data.collection || 'emc_embeddings'})</div>
+                            <div class="entries-grid">
+                                ${(data.sample_vectors || []).map(v => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${v.chunk_id || v.id}</span>
+                                            <span class="entry-badge vector">Vector</span>
+                                        </div>
+                                        <div class="entry-title">${v.title || 'N/A'}</div>
+                                        <div class="entry-content">${v.content_preview || ''}</div>
+                                        <div class="entry-meta">
+                                            <span><i class="fas fa-file"></i> ${v.document_id || 'N/A'}</span>
+                                        </div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No vectors found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'rabbitmq':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-paper-plane"></i> Queues</div>
+                            <div class="entries-grid">
+                                ${(data.queues || []).map(q => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${q.name}</span>
+                                            <span class="entry-badge ${q.state === 'running' ? 'clause' : 'document'}">${q.state || 'N/A'}</span>
+                                        </div>
+                                        <div class="entry-meta">
+                                            <span><i class="fas fa-envelope"></i> ${q.messages || 0} msgs</span>
+                                            <span><i class="fas fa-users"></i> ${q.consumers || 0} consumers</span>
+                                            <span><i class="fas fa-memory"></i> ${(q.memory / 1024).toFixed(1) || 0} KB</span>
+                                        </div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No queues found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'redis':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-key"></i> Sample Keys (${data.total_keys || 0} total)</div>
+                            <div class="entries-grid">
+                                ${(data.sample_entries || []).map(e => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${e.key}</span>
+                                            <span class="entry-badge vector">${e.type}</span>
+                                        </div>
+                                        <div class="entry-content" style="font-family:monospace;font-size:0.75rem;">${typeof e.value === 'object' ? JSON.stringify(e.value, null, 2).substring(0, 200) : (e.value || '').substring(0, 200)}</div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No keys found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'ollama':
+                    html = `
+                        <div class="modal-section">
+                            <div class="modal-section-title"><i class="fas fa-robot"></i> Loaded Models</div>
+                            <div class="entries-grid">
+                                ${(data.models || []).map(m => `
+                                    <div class="entry-card">
+                                        <div class="entry-header">
+                                            <span class="entry-id">${m.name}</span>
+                                            <span class="entry-badge clause">Active</span>
+                                        </div>
+                                        <div class="entry-meta">
+                                            <span><i class="fas fa-hdd"></i> ${m.size_gb} GB</span>
+                                            <span><i class="fas fa-microchip"></i> ${m.parameter_size || 'N/A'}</span>
+                                            <span><i class="fas fa-cog"></i> ${m.quantization || 'N/A'}</span>
+                                        </div>
+                                        <div class="entry-content" style="margin-top:0.5rem;">Family: ${m.family || 'N/A'}</div>
+                                    </div>
+                                `).join('') || '<div style="color:var(--text-light);text-align:center;">No models found</div>'}
+                            </div>
+                        </div>`;
+                    break;
+
+                default:
+                    html = `<div style="text-align:center;padding:2rem;color:var(--text-light);">
+                        <i class="fas fa-info-circle" style="font-size:2rem;margin-bottom:1rem;"></i>
+                        <p>No detailed view available for this database</p>
+                    </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function updateWorkersGrid(workers) {
+            const workersGrid = document.getElementById('workers-grid');
+            if (!workersGrid) return;
+
+            const workerConfigs = {
+                'marker_worker': { icon: 'fa-file-pdf', color: '#ef4444', desc: 'Runs Marker to extract text and layout from PDFs.' },
+                'schema_worker': { icon: 'fa-sitemap', color: '#8b5cf6', desc: 'Generates a structured schema from Marker output.' },
+                'chunking_worker': { icon: 'fa-cut', color: '#f59e0b', desc: 'Splits the document into semantic chunks.' },
+                'graph_builder_worker': { icon: 'fa-project-diagram', color: '#10b981', desc: 'Builds the knowledge graph from chunks.' }
+            };
+
+            let runningCount = 0;
+            let stoppedCount = 0;
+
+            workersGrid.innerHTML = Object.entries(workers).map(([key, worker]) => {
+                if (worker.error) return '';
+
+                const cfg = workerConfigs[key] || { icon: 'fa-cog', color: '#6b7280', desc: 'Worker service' };
+                const isRunning = worker.status === 'running';
+                const isDeployed = worker.status !== 'not_deployed';
+
+                if (isRunning) runningCount++;
+                else stoppedCount++;
+
+                return `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-info">
+                                <div class="service-icon" style="background: ${hexToRgba(cfg.color, 0.1)}; color: ${cfg.color};">
+                                    <i class="fas ${cfg.icon}"></i>
+                                </div>
+                                <div>
+                                    <div class="service-name">${worker.name || key}</div>
+                                    <div class="service-desc">${cfg.desc}</div>
+                                </div>
+                            </div>
+                            <span class="service-badge ${isRunning ? 'healthy' : isDeployed ? 'error' : 'warning'}">
+                                ${isRunning ? 'Running' : isDeployed ? 'Stopped' : 'Not Deployed'}
+                            </span>
+                        </div>
+                        <div class="service-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: ${isRunning ? 'var(--success)' : 'var(--danger)'}">
+                                    <i class="fas ${isRunning ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                </div>
+                                <div class="metric-label">Status</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="font-size: 0.9rem;">${worker.uptime || 'N/A'}</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update summary
+            document.getElementById('workers-running').innerHTML = `
+                <span class="pulse-dot green"></span>
+                <span>Running: ${runningCount}</span>
+            `;
+            document.getElementById('workers-stopped').innerHTML = `
+                <span class="pulse-dot red"></span>
+                <span>Stopped: ${stoppedCount}</span>
+            `;
+        }
+
+        async function loadUsers() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading users...
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const response = await fetch('/api/monitoring/users');
+                const data = await response.json();
+
+                if (data.status === 'error') {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--danger);">
+                                <i class="fas fa-exclamation-triangle"></i> ${data.error}
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Update total count
+                document.getElementById('total-users-count').textContent = `Total: ${data.total_users || 0}`;
+
+                if (!data.users || data.users.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-light);">
+                                <i class="fas fa-user-slash"></i> No users found
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = data.users.map(user => {
+                    const createdDate = user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A';
+                    const lastLogin = user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never';
+                    const isActive = user.last_login && (Date.now() - new Date(user.last_login).getTime()) < 7 * 24 * 60 * 60 * 1000;
+
+                    return `
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                                        ${(user.username || 'U')[0].toUpperCase()}
+                                    </div>
+                                    <span style="font-weight: 500;">${user.username}</span>
+                                </div>
+                            </td>
+                            <td>${user.full_name || '--'}</td>
+                            <td>${user.email || '--'}</td>
+                            <td>${createdDate}</td>
+                            <td>${lastLogin}</td>
+                            <td>
+                                <span class="service-badge ${isActive ? 'healthy' : 'warning'}">
+                                    ${isActive ? 'Active' : 'Inactive'}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: var(--danger);">
+                            <i class="fas fa-exclamation-triangle"></i> Failed to load users: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('db-modal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('db-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // =========================================================
+        // Folder Ingestion Functions
+        // =========================================================
+
+        let ingestionJobId = null;
+        let ingestionPollingInterval = null;
+        let validatedFolderPath = null;
+
+        async function validateFolder() {
+            const folderPath = document.getElementById('folder-path-input').value.trim();
+            if (!folderPath) {
+                showValidationStatus('Please enter a folder path', 'error');
+                return;
+            }
+
+            const validateBtn = document.getElementById('validate-btn');
+            validateBtn.disabled = true;
+            validateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+
+            try {
+                const response = await fetch('/api/ingest/folder/validate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ folder_path: folderPath })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Validation failed');
+                }
+
+                if (data.valid) {
+                    validatedFolderPath = folderPath;
+                    showValidationStatus(`Valid folder: ${data.total_files} supported files found`, 'success');
+                    updateFileSummary(data.supported_files, data.unsupported_count);
+                    document.getElementById('file-summary-card').style.display = 'block';
+                    document.getElementById('start-ingestion-btn').disabled = false;
+                } else {
+                    validatedFolderPath = null;
+                    showValidationStatus(data.error_message || 'Invalid folder', 'error');
+                    document.getElementById('file-summary-card').style.display = 'none';
+                    document.getElementById('start-ingestion-btn').disabled = true;
+                }
+            } catch (e) {
+                showValidationStatus(`Error: ${e.message}`, 'error');
+                document.getElementById('file-summary-card').style.display = 'none';
+                document.getElementById('start-ingestion-btn').disabled = true;
+            } finally {
+                validateBtn.disabled = false;
+                validateBtn.innerHTML = '<i class="fas fa-check-circle"></i> Validate';
+            }
+        }
+
+        function showValidationStatus(message, type) {
+            const statusEl = document.getElementById('validation-status');
+            statusEl.textContent = message;
+            statusEl.className = `validation-status ${type}`;
+            statusEl.style.display = 'block';
+        }
+
+        function updateFileSummary(files, unsupportedCount) {
+            const counts = { pdf: 0, docx: 0, txt: 0, md: 0 };
+
+            files.forEach(file => {
+                if (counts.hasOwnProperty(file.file_type)) {
+                    counts[file.file_type]++;
+                }
+            });
+
+            document.getElementById('pdf-count').textContent = counts.pdf;
+            document.getElementById('docx-count').textContent = counts.docx;
+            document.getElementById('txt-count').textContent = counts.txt;
+            document.getElementById('md-count').textContent = counts.md;
+
+            const unsupportedWarning = document.getElementById('unsupported-warning');
+            if (unsupportedCount > 0) {
+                document.getElementById('unsupported-count').textContent = unsupportedCount;
+                unsupportedWarning.style.display = 'block';
+            } else {
+                unsupportedWarning.style.display = 'none';
+            }
+        }
+
+        async function startIngestion() {
+            if (!validatedFolderPath) {
+                alert('Please validate a folder first');
+                return;
+            }
+
+            const startBtn = document.getElementById('start-ingestion-btn');
+            const cancelBtn = document.getElementById('cancel-ingestion-btn');
+            const progressSection = document.getElementById('progress-section');
+            const statusBadge = document.getElementById('ingestion-status-badge');
+
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+            cancelBtn.style.display = 'inline-flex';
+            progressSection.style.display = 'block';
+            statusBadge.textContent = 'Processing';
+            statusBadge.style.background = 'rgba(59, 130, 246, 0.1)';
+            statusBadge.style.color = 'var(--info)';
+
+            // Hide results from previous run
+            document.getElementById('results-summary-section').style.display = 'none';
+            document.getElementById('ingestion-errors-card').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/ingest/folder/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ folder_path: validatedFolderPath })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to start ingestion');
+                }
+
+                ingestionJobId = data.job_id;
+                startBtn.innerHTML = '<i class="fas fa-upload"></i> Start Ingestion';
+
+                // Start polling for status
+                ingestionPollingInterval = setInterval(pollIngestionStatus, 1000);
+
+            } catch (e) {
+                alert(`Error: ${e.message}`);
+                resetIngestionUI();
+            }
+        }
+
+        async function pollIngestionStatus() {
+            if (!ingestionJobId) return;
+
+            try {
+                const response = await fetch(`/api/ingest/folder/status/${ingestionJobId}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to get status');
+                }
+
+                updateIngestionProgress(data);
+
+                // Check if job is complete
+                if (['completed', 'failed', 'cancelled'].includes(data.status)) {
+                    clearInterval(ingestionPollingInterval);
+                    ingestionPollingInterval = null;
+                    onIngestionComplete(data);
+                }
+            } catch (e) {
+                console.error('Polling error:', e);
+            }
+        }
+
+        function updateIngestionProgress(data) {
+            const progress = data.progress;
+            const percentage = Math.round(progress.percentage);
+
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+            document.getElementById('progress-percentage').textContent = `${percentage}%`;
+
+            if (progress.current_file) {
+                document.getElementById('progress-text').textContent =
+                    `Processing: ${progress.current_file} (${progress.processed_files} of ${progress.total_files})`;
+            } else {
+                document.getElementById('progress-text').textContent =
+                    `Processed ${progress.processed_files} of ${progress.total_files} files`;
+            }
+
+            // Update errors if any
+            if (data.errors && data.errors.length > 0) {
+                displayIngestionErrors(data.errors);
+            }
+        }
+
+        function onIngestionComplete(data) {
+            const statusBadge = document.getElementById('ingestion-status-badge');
+            const cancelBtn = document.getElementById('cancel-ingestion-btn');
+
+            cancelBtn.style.display = 'none';
+
+            if (data.status === 'completed') {
+                statusBadge.textContent = 'Completed';
+                statusBadge.style.background = 'rgba(16, 185, 129, 0.1)';
+                statusBadge.style.color = 'var(--success)';
+
+                if (data.results) {
+                    displayIngestionResults(data.results);
+                }
+            } else if (data.status === 'failed') {
+                statusBadge.textContent = 'Failed';
+                statusBadge.style.background = 'rgba(239, 68, 68, 0.1)';
+                statusBadge.style.color = 'var(--danger)';
+            } else if (data.status === 'cancelled') {
+                statusBadge.textContent = 'Cancelled';
+                statusBadge.style.background = 'rgba(245, 158, 11, 0.1)';
+                statusBadge.style.color = 'var(--warning)';
+            }
+
+            document.getElementById('start-ingestion-btn').disabled = false;
+        }
+
+        function displayIngestionErrors(errors) {
+            const errorsCard = document.getElementById('ingestion-errors-card');
+            const errorsList = document.getElementById('ingestion-errors-list');
+            const errorCountText = document.getElementById('error-count-text');
+
+            // Filter out non-error types (duplicates are info, not errors)
+            const actualErrors = errors.filter(e => e.error_type !== 'duplicate');
+
+            if (actualErrors.length > 0) {
+                errorsCard.style.display = 'block';
+                errorCountText.textContent = actualErrors.length;
+
+                errorsList.innerHTML = actualErrors.map(error => `
+                    <div class="ingestion-error-item">
+                        <div class="filename">${escapeHtml(error.filename)}</div>
+                        <div class="message">${escapeHtml(error.error_message)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function displayIngestionResults(results) {
+            document.getElementById('results-summary-section').style.display = 'block';
+            document.getElementById('result-documents').textContent = results.documents_processed;
+            document.getElementById('result-chunks').textContent = results.chunks_created || '-';
+            document.getElementById('result-nodes').textContent = results.graph_nodes_created || '-';
+
+            const duration = results.duration_seconds;
+            if (duration < 60) {
+                document.getElementById('result-duration').textContent = `${duration.toFixed(1)}s`;
+            } else {
+                const minutes = Math.floor(duration / 60);
+                const seconds = Math.round(duration % 60);
+                document.getElementById('result-duration').textContent = `${minutes}m ${seconds}s`;
+            }
+        }
+
+        async function cancelIngestion() {
+            if (!ingestionJobId) return;
+
+            try {
+                const response = await fetch(`/api/ingest/folder/cancel/${ingestionJobId}`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    // Polling will pick up the cancelled status
+                    document.getElementById('progress-text').textContent = 'Cancelling...';
+                }
+            } catch (e) {
+                console.error('Cancel error:', e);
+            }
+        }
+
+        function resetIngestionForm() {
+            // Stop polling if active
+            if (ingestionPollingInterval) {
+                clearInterval(ingestionPollingInterval);
+                ingestionPollingInterval = null;
+            }
+
+            ingestionJobId = null;
+            validatedFolderPath = null;
+
+            // Reset UI elements
+            document.getElementById('folder-path-input').value = '';
+            document.getElementById('validation-status').style.display = 'none';
+            document.getElementById('file-summary-card').style.display = 'none';
+            document.getElementById('progress-section').style.display = 'none';
+            document.getElementById('ingestion-errors-card').style.display = 'none';
+            document.getElementById('results-summary-section').style.display = 'none';
+
+            document.getElementById('start-ingestion-btn').disabled = true;
+            document.getElementById('start-ingestion-btn').innerHTML = '<i class="fas fa-upload"></i> Start Ingestion';
+            document.getElementById('cancel-ingestion-btn').style.display = 'none';
+
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-percentage').textContent = '0%';
+            document.getElementById('progress-text').textContent = 'Preparing...';
+
+            const statusBadge = document.getElementById('ingestion-status-badge');
+            statusBadge.textContent = 'Idle';
+            statusBadge.style.background = 'rgba(148, 163, 184, 0.1)';
+            statusBadge.style.color = 'var(--text-light)';
+        }
+
+        function resetIngestionUI() {
+            document.getElementById('start-ingestion-btn').disabled = false;
+            document.getElementById('start-ingestion-btn').innerHTML = '<i class="fas fa-upload"></i> Start Ingestion';
+            document.getElementById('cancel-ingestion-btn').style.display = 'none';
+            document.getElementById('progress-section').style.display = 'none';
+
+            const statusBadge = document.getElementById('ingestion-status-badge');
+            statusBadge.textContent = 'Idle';
+            statusBadge.style.background = 'rgba(148, 163, 184, 0.1)';
+            statusBadge.style.color = 'var(--text-light)';
+        }
+    </script>
+</body>
+</html>

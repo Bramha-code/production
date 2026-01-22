@@ -1,0 +1,2 @@
+Sample text file for testing folder ingestion.
+This file should be detected as a supported file type.

@@ -1,0 +1,12 @@
+# Ignore data folder completely
+data/
+
+# Ignore tests completely
+test/
+
+# Ignore python cache
+src/__pycache__/
+**/__pycache__/
+
+# Ignore logs
+*.log

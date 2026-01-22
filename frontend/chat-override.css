@@ -1,0 +1,1680 @@
+/* ============================================================================
+   CHATGPT STYLE UI - MATCHING LANDING PAGE COLORS
+   User on RIGHT, LLM on LEFT (no avatar) - Clean Professional
+   ============================================================================ */
+
+/* ============================================================================
+   COLOR SCHEME - EXACT LANDING PAGE MATCH
+   ============================================================================ */
+:root[data-theme="light"] {
+    --primary: rgb(195, 63, 145);
+    --primary-hover: rgb(175, 43, 125);
+    --secondary: #10b981;
+    --secondary-light: #06b6d4;
+    --bg-white: #ffffff;
+    --bg-light: #f8fafc;
+    --bg-lighter: #f1f5f9;
+    --text-dark: #0f172a;
+    --text-gray: #475569;
+    --text-light: #94a3b8;
+    --border: #e2e8f0;
+    --chat-separator: #e2e8f0;
+}
+
+:root[data-theme="dark"] {
+    --primary: rgb(215, 83, 165);
+    --primary-hover: rgb(195, 63, 145);
+    --secondary: #10b981;
+    --secondary-light: #06b6d4;
+    --bg-white: #0f172a;
+    --bg-light: #1e293b;
+    --bg-lighter: #334155;
+    --text-dark: #f1f5f9;
+    --text-gray: #cbd5e1;
+    --text-light: #94a3b8;
+    --border: #334155;
+    --chat-separator: #334155;
+}
+
+/* ============================================================================
+   SIDEBAR - Professional Style with Landing Page Colors
+   ============================================================================ */
+
+.sidebar {
+    background: var(--bg-light) !important;
+    border-right: 1px solid var(--border) !important;
+}
+
+.sidebar-header {
+    padding: 16px !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.logo {
+    margin-bottom: 12px !important;
+}
+
+.logo-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+}
+
+.logo-subtitle {
+    font-size: 11px !important;
+    color: var(--text-light) !important;
+}
+
+/* New Chat Button - Primary Color */
+.new-chat-btn {
+    border-radius: 16px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    background: var(--primary) !important;
+    transition: all 0.2s ease !important;
+}
+
+.new-chat-btn:hover {
+    background: var(--primary-hover) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(195, 63, 145, 0.2) !important;
+}
+
+/* Sidebar Search - Transparent background */
+.sidebar-search {
+    padding: 10px 14px !important;
+    margin: 12px 16px !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-radius: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.sidebar-search:focus-within {
+    border-bottom-color: var(--primary) !important;
+    box-shadow: none !important;
+}
+
+.sidebar-search input {
+    font-size: 13px !important;
+    color: var(--text-dark) !important;
+    background: transparent !important;
+}
+
+.sidebar-search input::placeholder {
+    color: var(--text-light) !important;
+}
+
+.sidebar-search i {
+    font-size: 13px !important;
+    color: var(--text-light) !important;
+}
+
+/* Chat List Items - Light gray highlight for active */
+.chat-list {
+    padding: 8px !important;
+}
+
+.chat-item {
+    padding: 10px 12px !important;
+    margin-bottom: 4px !important;
+    border-radius: 8px !important;
+    transition: all 0.15s ease !important;
+}
+
+.chat-item:hover {
+    background: var(--bg-lighter) !important;
+}
+
+/* Active chat - Very light greyish highlight */
+.chat-item.active {
+    background: rgba(241, 245, 249, 0.6) !important;
+}
+
+.chat-item.active .chat-item-title {
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+}
+
+.chat-item-title {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--text-dark) !important;
+}
+
+.chat-item-time {
+    font-size: 11px !important;
+    color: var(--text-light) !important;
+}
+
+/* ============================================================================
+   MESSAGES - User RIGHT, LLM LEFT (No LLM Avatar)
+   ============================================================================ */
+
+#chat-messages {
+    padding: 0 !important;
+    background: var(--bg-white) !important;
+}
+
+/* All messages - same background, thin separator */
+.message {
+    display: flex !important;
+    gap: 16px !important;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+    background: var(--bg-white) !important;
+    border-bottom: 1px solid var(--chat-separator) !important;
+    animation: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* User messages - Gemini style on RIGHT side */
+.message.user {
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    background: var(--bg-white) !important;
+    padding-left: 25% !important;
+    padding-right: 24px !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    gap: 0 !important;
+    width: 100% !important;
+}
+
+/* User message content - speech bubble container */
+.message.user .message-content {
+    max-width: 75% !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+}
+
+/* User message text - Gemini style: rounded left and bottom, flat top-right */
+.message.user .message-text {
+    background: #f4f4f4 !important;
+    padding: 10px 16px !important;
+    border-radius: 18px 4px 18px 18px !important;
+    border: none !important;
+    display: inline-block !important;
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+    color: #000 !important;
+    position: relative !important;
+}
+
+/* Assistant messages - KEEP on LEFT side, NO AVATAR */
+.message.assistant {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    background: var(--bg-white) !important;
+    gap: 0 !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    margin-right: auto !important;
+}
+
+/* Assistant message content - no width constraint, full width */
+.message.assistant .message-content {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+}
+
+/* Assistant message text - no background, clean text, full width */
+.message.assistant .message-text {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* ============================================================================
+   AVATARS - User ONLY (Round with initials)
+   ============================================================================ */
+
+/* User Avatar - HIDDEN (Gemini style) */
+.message.user .message-avatar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+}
+
+/* LLM Avatar - COMPLETELY HIDDEN, NO AVATAR AT ALL */
+.message.assistant .message-avatar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+}
+
+/* ============================================================================
+   MESSAGE CONTENT - Clean Typography
+   ============================================================================ */
+
+.message-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.message-text {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    color: var(--text-dark) !important;
+    margin: 0 !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.message-text p {
+    margin: 0 0 0.75em 0 !important;
+    line-height: 1.6 !important;
+}
+
+.message-text p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.message-text p:first-child {
+    margin-top: 0 !important;
+}
+
+/* Ensure user message text color is black */
+.message.user .message-text,
+.message.user .message-text p,
+.message.user .message-text h1,
+.message.user .message-text h2,
+.message.user .message-text h3,
+.message.user .message-text h4,
+.message.user .message-text strong {
+    color: #000 !important;
+}
+
+/* User message links */
+.message.user .message-text a {
+    color: var(--primary) !important;
+    text-decoration: underline !important;
+}
+
+/* ============================================================================
+   MESSAGE FOOTER - Hover Actions
+   ============================================================================ */
+
+.message-footer {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+    padding: 4px 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: all 0.2s ease !important;
+    pointer-events: auto !important;
+    z-index: 1000 !important;
+    position: relative !important;
+}
+
+.message:hover .message-footer {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+/* User message footer aligned right */
+.message.user .message-footer {
+    justify-content: flex-end !important;
+}
+
+/* Hide time for user messages */
+.message.user .message-time {
+    display: none !important;
+}
+
+/* Assistant message footer aligned left */
+.message.assistant .message-footer {
+    justify-content: flex-start !important;
+}
+
+/* ============================================================================
+   CRITICAL: ACTION BUTTONS ALWAYS VISIBLE - NO HOVER REQUIRED
+   ============================================================================ */
+
+/* Force ALL message footers to be visible at all times */
+.message-footer {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    min-height: 40px !important;
+    background: transparent !important;
+}
+
+/* Force ALL action buttons containers to be visible */
+.message-footer .actions {
+    display: flex !important;
+    gap: 6px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: transparent !important;
+}
+
+/* Force ALL action buttons to be visible and styled */
+.action-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Assistant message action buttons - light gray background for visibility */
+.message.assistant .action-btn {
+    background: #f0f0f0 !important;
+    border: 1px solid #d0d0d0 !important;
+}
+
+.message.assistant .action-btn:hover {
+    background: #e0e0e0 !important;
+    border-color: #b0b0b0 !important;
+}
+
+.message.assistant .action-btn:active {
+    background: #d0d0d0 !important;
+    transform: scale(0.95) !important;
+}
+
+/* User message action buttons - subtle styling */
+.message.user .action-btn {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.message.user .action-btn:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Additional z-index and wrapping controls */
+.message-footer .actions {
+    z-index: 1000 !important;
+    flex-wrap: nowrap !important;
+}
+
+.message-time {
+    font-size: 12px !important;
+    color: var(--text-light) !important;
+}
+
+/* ============================================================================
+   ACTION BUTTONS - Landing Page Colors
+   ============================================================================ */
+
+.actions {
+    display: flex !important;
+    gap: 4px !important;
+    align-items: center !important;
+}
+
+.action-btn {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    color: var(--text-gray) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.2s !important;
+    font-size: 14px !important;
+    pointer-events: auto !important;
+    z-index: 1000 !important;
+    position: relative !important;
+    flex-shrink: 0 !important;
+}
+
+.action-btn:hover {
+    background: var(--bg-lighter) !important;
+    border-color: var(--border) !important;
+    color: var(--text-dark) !important;
+    transform: scale(1.05) !important;
+}
+
+.action-btn:active {
+    transform: scale(0.95) !important;
+}
+
+.action-btn i {
+    font-size: 14px !important;
+}
+
+/* Specific action button styles */
+.copy-btn {
+    color: #666 !important;
+    pointer-events: auto !important;
+}
+
+.copy-btn:hover {
+    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+}
+
+.copy-btn.copied {
+    color: white !important;
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+.edit-btn {
+    color: #666 !important;
+    pointer-events: auto !important;
+}
+
+.edit-btn:hover {
+    color: var(--primary) !important;
+    background: rgba(195, 63, 145, 0.2) !important;
+    border-color: var(--primary) !important;
+}
+
+.regenerate-btn,
+.regen-btn,
+.action-btn[data-action="regenerate"] {
+    color: #666 !important;
+    pointer-events: auto !important;
+}
+
+.regenerate-btn:hover,
+.regen-btn:hover,
+.action-btn[data-action="regenerate"]:hover {
+    color: var(--primary) !important;
+    background: rgba(195, 63, 145, 0.2) !important;
+    border-color: var(--primary) !important;
+}
+
+/* Thumbs up button */
+.like-btn {
+    color: #666 !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.like-btn:hover {
+    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-color: #10b981 !important;
+}
+
+.like-btn.liked {
+    color: white !important;
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+/* Thumbs down button */
+.dislike-btn {
+    color: #666 !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.dislike-btn:hover {
+    color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.2) !important;
+    border-color: #ef4444 !important;
+}
+
+.dislike-btn.disliked {
+    color: white !important;
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+}
+
+/* Share button */
+.share-btn {
+    color: #666 !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.share-btn:hover {
+    color: #3b82f6 !important;
+    background: rgba(59, 130, 246, 0.2) !important;
+    border-color: #3b82f6 !important;
+}
+
+/* Code copy button */
+.copy-code-btn {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-dark) !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: all 0.2s !important;
+}
+
+.copy-code-btn:hover {
+    background: var(--bg-light) !important;
+    color: var(--secondary) !important;
+}
+
+/* ============================================================================
+   INPUT AREA - FULLY TRANSPARENT CONTAINER
+   ============================================================================ */
+
+.input-container {
+    background: transparent !important;
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    border-top: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 16px 20px 20px 20px !important;
+    position: sticky !important;
+    bottom: 0 !important;
+}
+
+.input-wrapper {
+    max-width: 48rem !important;
+    margin: 0 auto !important;
+}
+
+/* Input box - White background with border and shadow */
+.input-box {
+    background: var(--bg-white) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 24px !important;
+    padding: 10px 14px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 10px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+.input-box:focus-within {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px rgba(195, 63, 145, 0.1) !important;
+}
+
+#user-input {
+    flex: 1 !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--text-dark) !important;
+    font-size: 15px !important;
+    line-height: 24px !important;
+    padding: 4px 0 !important;
+    resize: none !important;
+    max-height: 200px !important;
+    font-family: inherit !important;
+}
+
+#user-input:focus {
+    outline: none !important;
+}
+
+#user-input::placeholder {
+    color: var(--text-light) !important;
+}
+
+/* ============================================================================
+   SEND/PAUSE/RESUME BUTTONS - Landing Page Colors
+   ============================================================================ */
+
+/* Send Button - Primary Color */
+.send-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: var(--primary) !important;
+    color: white !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.send-btn:hover:not(:disabled) {
+    background: var(--primary-hover) !important;
+}
+
+.send-btn:disabled {
+    background: var(--bg-lighter) !important;
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
+}
+
+/* Pause Button */
+.pause-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: var(--text-gray) !important;
+    color: white !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.pause-btn:hover {
+    background: var(--text-dark) !important;
+}
+
+/* Resume Button */
+.resume-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    background: var(--secondary) !important;
+    color: white !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.resume-btn:hover {
+    background: #059669 !important;
+}
+
+.send-btn i,
+.pause-btn i,
+.resume-btn i {
+    font-size: 15px !important;
+}
+
+/* ============================================================================
+   ATTACH AND VOICE BUTTONS
+   ============================================================================ */
+
+.attach-btn,
+.voice-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--text-light) !important;
+    transition: all 0.15s ease !important;
+}
+
+.attach-btn:hover,
+.voice-btn:hover {
+    background: var(--bg-lighter) !important;
+    color: var(--text-dark) !important;
+}
+
+/* ============================================================================
+   CODE BLOCKS - Landing Page Colors
+   ============================================================================ */
+
+.code-block-wrapper {
+    margin: 16px 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border) !important;
+    overflow: hidden !important;
+    background: var(--bg-lighter) !important;
+}
+
+.code-block-header {
+    padding: 8px 16px !important;
+    background: var(--bg-lighter) !important;
+    border-bottom: 1px solid var(--border) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.code-language {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+    text-transform: lowercase !important;
+    opacity: 0.7 !important;
+}
+
+.copy-code-btn {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-dark) !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: background 0.15s !important;
+}
+
+.copy-code-btn:hover {
+    background: var(--bg-light) !important;
+}
+
+.code-block-wrapper pre {
+    margin: 0 !important;
+    padding: 16px !important;
+    background: var(--bg-lighter) !important;
+    overflow-x: auto !important;
+}
+
+.code-block-wrapper code {
+    font-family: 'SF Mono', 'Consolas', 'Monaco', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    background: transparent !important;
+}
+
+/* Inline code */
+.message-text code {
+    background: var(--bg-lighter) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-family: 'SF Mono', 'Consolas', 'Monaco', monospace !important;
+    font-size: 0.9em !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* ============================================================================
+   TYPING INDICATOR
+   ============================================================================ */
+
+.typing-indicator {
+    display: inline-flex !important;
+    gap: 4px !important;
+    padding: 8px 0 !important;
+}
+
+.typing-dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: var(--text-light) !important;
+    animation: typing-bounce 1.4s infinite ease-in-out !important;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: -0.32s !important;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: -0.16s !important;
+}
+
+@keyframes typing-bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   TOAST NOTIFICATIONS
+   ============================================================================ */
+
+.toast {
+    position: fixed !important;
+    bottom: 80px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(100px) !important;
+    background: var(--text-dark) !important;
+    color: var(--bg-white) !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10000 !important;
+    opacity: 0 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    pointer-events: none !important;
+}
+
+.toast.show {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+.toast.toast-success {
+    background: var(--secondary) !important;
+    color: white !important;
+}
+
+.toast.toast-error {
+    background: #ef4444 !important;
+    color: white !important;
+}
+
+.toast.toast-info {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+/* ============================================================================
+   EDIT MESSAGE UI
+   ============================================================================ */
+
+.edit-message-container {
+    margin-top: 12px !important;
+}
+
+.edit-message-input {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    background: var(--bg-white) !important;
+    color: var(--text-dark) !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    font-family: inherit !important;
+    resize: vertical !important;
+    min-height: 80px !important;
+}
+
+.edit-message-input:focus {
+    outline: none !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px rgba(195, 63, 145, 0.1) !important;
+}
+
+.edit-message-actions {
+    display: flex !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+    justify-content: flex-end !important;
+}
+
+.btn-cancel,
+.btn-save {
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    border: none !important;
+    transition: all 0.15s !important;
+}
+
+.btn-cancel {
+    background: transparent !important;
+    color: var(--text-dark) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-cancel:hover {
+    background: var(--bg-lighter) !important;
+}
+
+.btn-save {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+.btn-save:hover {
+    background: var(--primary-hover) !important;
+}
+
+/* ============================================================================
+   SCROLLBAR - Minimal
+   ============================================================================ */
+
+#chat-messages::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border) !important;
+    border-radius: 3px !important;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light) !important;
+}
+
+/* ============================================================================
+   MARKDOWN ELEMENTS - Clean Style
+   ============================================================================ */
+
+.message-text h1,
+.message-text h2,
+.message-text h3,
+.message-text h4 {
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+    margin: 1.5em 0 0.5em 0 !important;
+}
+
+.message-text h1:first-child,
+.message-text h2:first-child,
+.message-text h3:first-child {
+    margin-top: 0 !important;
+}
+
+.message-text h1 {
+    font-size: 1.5em !important;
+}
+
+.message-text h2 {
+    font-size: 1.3em !important;
+}
+
+.message-text h3 {
+    font-size: 1.1em !important;
+}
+
+.message-text ul,
+.message-text ol {
+    margin: 0.5em 0 !important;
+    padding-left: 1.5em !important;
+}
+
+.message-text li {
+    margin: 0.25em 0 !important;
+}
+
+.message-text strong {
+    font-weight: 600 !important;
+}
+
+.message-text a {
+    color: var(--primary) !important;
+    text-decoration: underline !important;
+}
+
+.message-text a:hover {
+    text-decoration: none !important;
+}
+
+.message-text table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 1em 0 !important;
+}
+
+.message-text th,
+.message-text td {
+    border: 1px solid var(--border) !important;
+    padding: 8px 12px !important;
+    text-align: left !important;
+}
+
+.message-text th {
+    background: var(--bg-lighter) !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================================================
+   INPUT FOOTER - Character Counter & Hints
+   ============================================================================ */
+
+.input-footer {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 8px !important;
+    padding: 0 !important;
+    font-size: 11px !important;
+    color: var(--text-light) !important;
+}
+
+.char-counter {
+    display: none !important;
+}
+
+.input-hint {
+    font-size: 11px !important;
+    color: var(--text-light) !important;
+}
+
+/* ============================================================================
+   HEADER - Clean Professional with Landing Colors
+   ============================================================================ */
+
+.chat-header {
+    border-bottom: 1px solid var(--chat-separator) !important;
+    background: var(--bg-white) !important;
+    padding: 16px 24px !important;
+}
+
+.header-left h1 {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+}
+
+/* Model selector styling */
+.model-btn {
+    font-size: 13px !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    background: var(--bg-lighter) !important;
+    border-color: var(--border) !important;
+    color: var(--text-dark) !important;
+}
+
+.model-btn:hover {
+    background: var(--bg-light) !important;
+    border-color: var(--primary) !important;
+}
+
+.model-btn i:first-child {
+    color: var(--primary) !important;
+}
+
+/* Icon buttons */
+.icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    color: var(--text-gray) !important;
+}
+
+.icon-btn:hover {
+    background: var(--bg-lighter) !important;
+    color: var(--primary) !important;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    .message {
+        padding: 16px !important;
+    }
+
+    .input-container {
+        padding: 12px !important;
+    }
+}
+
+/* ============================================================================
+   DARK MODE SPECIFIC
+   ============================================================================ */
+
+:root[data-theme="dark"] .sidebar {
+    background: var(--bg-light) !important;
+}
+
+:root[data-theme="dark"] .chat-item.active {
+    background: var(--bg-lighter) !important;
+}
+
+:root[data-theme="dark"] .new-chat-btn {
+    background: var(--primary) !important;
+}
+
+/* ============================================================================
+   FILE PREVIEW STYLING
+   ============================================================================ */
+
+.file-preview {
+    max-width: 48rem !important;
+    margin: 0 auto 12px auto !important;
+}
+
+.file-attachment {
+    background: var(--bg-lighter) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+}
+
+/* ============================================================================
+   WELCOME SCREEN
+   ============================================================================ */
+
+.welcome-screen {
+    padding: 40px 20px !important;
+}
+
+.welcome-screen h2 {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+}
+
+.welcome-screen p {
+    font-size: 15px !important;
+    color: var(--text-gray) !important;
+}
+
+/* Quick prompts */
+.quick-prompt {
+    padding: 10px 16px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    border: 1px solid var(--border) !important;
+    background: var(--bg-white) !important;
+    color: var(--text-gray) !important;
+    transition: all 0.2s ease !important;
+}
+
+.quick-prompt:hover {
+    border-color: var(--primary) !important;
+    background: var(--bg-lighter) !important;
+    color: var(--primary) !important;
+}
+
+.quick-prompt i {
+    color: var(--primary) !important;
+}
+
+/* ============================================================================
+   MODEL DROPDOWN
+   ============================================================================ */
+
+.model-dropdown {
+    background: var(--bg-white) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.model-option {
+    color: var(--text-dark) !important;
+}
+
+.model-option:hover {
+    background: var(--bg-lighter) !important;
+}
+
+.model-option.active {
+    background: var(--bg-light) !important;
+}
+
+.model-option i {
+    color: var(--primary) !important;
+}
+
+.model-name {
+    color: var(--text-dark) !important;
+}
+
+.model-desc {
+    color: var(--text-light) !important;
+}
+
+/* ============================================================================
+   OVERRIDE: Remove ANY hover-only visibility from base CSS
+   ============================================================================ */
+
+/* Override any hover-only rules from chat.css */
+.message .message-footer,
+.message:not(:hover) .message-footer,
+.message:hover .message-footer {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.message .message-footer .actions,
+.message:not(:hover) .message-footer .actions,
+.message:hover .message-footer .actions {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.message .action-btn,
+.message:not(:hover) .action-btn,
+.message:hover .action-btn {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+/* ============================================================================
+   END OF CHATGPT STYLE WITH LANDING PAGE COLORS
+   ============================================================================ */
+
+/* ============================================================================
+   CHATGPT-EXACT ACTION BUTTONS STYLING
+   Target: Assistant message action buttons only
+   ============================================================================ */
+
+/* Container for action buttons - left-aligned, horizontal layout */
+.message.assistant .message-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    justify-content: flex-start !important;
+    /* Left-aligned like ChatGPT */
+}
+
+/* Individual action buttons - ChatGPT circular style */
+.message.assistant .action-btn {
+    /* Size and shape */
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    padding: 0 !important;
+
+    /* Circular shape */
+    border-radius: 50% !important;
+
+    /* Transparent background by default */
+    background: transparent !important;
+    border: none !important;
+
+    /* Icon color - neutral gray */
+    color: #6b6b6b !important;
+
+    /* Layout */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    /* Cursor */
+    cursor: pointer !important;
+
+    /* Smooth transition for hover */
+    transition: background-color 0.2s ease, opacity 0.2s ease !important;
+
+    /* No outline by default */
+    outline: none !important;
+
+    /* Ensure visibility */
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+/* Hover state - subtle light gray background */
+.message.assistant .action-btn:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #1a1a1a !important;
+}
+
+/* Dark mode hover */
+[data-theme="dark"] .message.assistant .action-btn:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #e8e8e8 !important;
+}
+
+/* Active/click state - slightly darker */
+.message.assistant .action-btn:active {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .message.assistant .action-btn:active {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Focus state for accessibility - subtle */
+.message.assistant .action-btn:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.2) !important;
+    outline-offset: 2px !important;
+}
+
+[data-theme="dark"] .message.assistant .action-btn:focus-visible {
+    outline-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* SVG icons inside buttons - flat, minimal - SMALLER SIZE */
+.message.assistant .action-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke-width: 2 !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+/* Specific button states when active */
+.message.assistant .like-btn.liked {
+    color: #10b981 !important;
+    background: rgba(16, 185, 129, 0.1) !important;
+}
+
+.message.assistant .like-btn.liked svg {
+    fill: currentColor !important;
+}
+
+.message.assistant .dislike-btn.disliked {
+    color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.message.assistant .dislike-btn.disliked svg {
+    fill: currentColor !important;
+}
+
+.message.assistant .copy-btn.copied {
+    color: #10b981 !important;
+}
+
+/* Hide timestamp completely - no spacing left behind */
+.message.assistant .message-time,
+.message-time {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Ensure message footer doesn't add extra spacing */
+.message.assistant .message-footer {
+    display: none !important;
+    /* Hide old footer structure */
+}
+
+/* Remove any tooltips that might interfere */
+.message.assistant .action-btn::after,
+.message.assistant .action-btn::before {
+    display: none !important;
+}
+
+/* User message actions - keep minimal */
+.message.user .message-actions {
+    display: flex !important;
+    gap: 6px !important;
+    margin-top: 8px !important;
+    justify-content: flex-end !important;
+    opacity: 0.7 !important;
+}
+
+.message.user:hover .message-actions {
+    opacity: 1 !important;
+}
+
+.message.user .action-btn {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+    color: #6b6b6b !important;
+}
+
+.message.user .action-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.message.user .action-btn:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Mobile responsive - slightly larger touch targets */
+@media (max-width: 768px) {
+    .message.assistant .action-btn {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+    }
+
+    .message.assistant .action-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* Ensure buttons appear after streaming completes */
+.message.assistant.streaming .message-actions {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.message.assistant:not(.streaming) .message-actions {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+/* ============================================================================
+   ENHANCED MARKDOWN RENDERING - Mermaid, Math, Images
+   ============================================================================ */
+
+/* Mermaid Diagram Styling */
+.message-text .mermaid {
+    background: var(--bg-lighter) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin: 15px 0 !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+}
+
+/* Dark mode mermaid */
+:root[data-theme="dark"] .message-text .mermaid {
+    background: var(--bg-lighter) !important;
+    border-color: var(--border) !important;
+}
+
+.message-text .mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* KaTeX Math Styling */
+.message-text .katex-display {
+    margin: 1em 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+.message-text .katex {
+    font-size: 1.1em !important;
+}
+
+/* Enhanced Table Styling */
+.message-text table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 15px 0 !important;
+    background: var(--bg-white) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.message-text table thead {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%) !important;
+    color: white !important;
+}
+
+.message-text table th {
+    padding: 12px 15px !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    font-size: 0.9em !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.message-text table td {
+    padding: 12px 15px !important;
+    border-bottom: 1px solid var(--border) !important;
+    color: var(--text-dark) !important;
+}
+
+.message-text table tbody tr:hover {
+    background: var(--bg-lighter) !important;
+    transition: background 0.2s ease !important;
+}
+
+.message-text table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Enhanced Image Styling */
+.message-text img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 8px !important;
+    margin: 15px 0 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Enhanced Link Styling */
+.message-text a {
+    color: var(--primary) !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.message-text a:hover {
+    color: var(--primary-hover) !important;
+    border-bottom-color: var(--primary-hover) !important;
+}
+
+/* Enhanced Heading Styling */
+.message-text h1, 
+.message-text h2, 
+.message-text h3, 
+.message-text h4 {
+    margin-top: 1.5em !important;
+    margin-bottom: 0.8em !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+    line-height: 1.3 !important;
+}
+
+.message-text h1 {
+    font-size: 2em !important;
+    border-bottom: 3px solid var(--primary) !important;
+    padding-bottom: 0.3em !important;
+}
+
+.message-text h2 {
+    font-size: 1.6em !important;
+    border-bottom: 2px solid var(--secondary) !important;
+    padding-bottom: 0.3em !important;
+}
+
+.message-text h3 {
+    font-size: 1.3em !important;
+    color: var(--primary) !important;
+}
+
+.message-text h4 {
+    font-size: 1.1em !important;
+    color: var(--secondary) !important;
+}
+
+/* Enhanced List Styling */
+.message-text ul, 
+.message-text ol {
+    margin: 15px 0 !important;
+    padding-left: 30px !important;
+}
+
+.message-text li {
+    margin: 8px 0 !important;
+    line-height: 1.6 !important;
+}
+
+.message-text ul li {
+    list-style-type: disc !important;
+}
+
+.message-text ol li {
+    list-style-type: decimal !important;
+}
+
+/* Enhanced Blockquote Styling */
+.message-text blockquote {
+    border-left: 4px solid var(--primary) !important;
+    padding: 12px 20px !important;
+    margin: 15px 0 !important;
+    background: var(--bg-lighter) !important;
+    border-radius: 0 8px 8px 0 !important;
+    font-style: italic !important;
+    color: var(--text-gray) !important;
+}
+
+/* Enhanced Horizontal Rule */
+.message-text hr {
+    border: none !important;
+    height: 2px !important;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent) !important;
+    margin: 30px 0 !important;
+}
+
+/* Responsive Design for Diagrams and Images */
+@media (max-width: 768px) {
+    .message-text .mermaid {
+        padding: 10px !important;
+        font-size: 0.85em !important;
+    }
+    
+    .message-text table {
+        font-size: 0.9em !important;
+    }
+    
+    .message-text table th,
+    .message-text table td {
+        padding: 8px 10px !important;
+    }
+}

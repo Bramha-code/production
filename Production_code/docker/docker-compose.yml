@@ -1,0 +1,335 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: emc_registry
+      POSTGRES_USER: emc_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U emc_user -d emc_registry"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-emc}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-changeme}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  neo4j:
+    image: neo4j:4.4
+    container_name: neo4j
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-password}
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 60s
+      retries: 20
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.52
+    container_name: jaeger
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "6831:6831/udp" # Agent - Jaeger
+    networks:
+      - app-network
+
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../prometheus.yml:/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-password}
+      - GRAFANA_USER=${GRAFANA_USER:-admin}
+      - GRAFANA_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    networks:
+      - app-network
+
+  ingestion_service:
+    build: ..
+    container_name: ingestion_service
+    ports:
+      - "8001:8000"
+    command: python -m services.ingestion_service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-password}
+    volumes:
+      - s3_local_storage:/app/s3_storage
+    networks:
+      - app-network
+
+  marker_worker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.marker
+    container_name: marker_worker
+    command: python -m services.marker_worker
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - MARKER_USE_GPU=${MARKER_USE_GPU:-true}
+    volumes:
+      - s3_local_storage:/app/s3_storage
+    networks:
+      - app-network
+
+  schema_worker:
+    build: ..
+    container_name: schema_worker
+    command: python -m services.schema_worker
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    networks:
+      - app-network
+
+  chunking_service:
+    build: ..
+    container_name: chunking_service
+    command: python -m services.chunking_service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+    networks:
+      - app-network
+
+  graph_builder_worker:
+    build: ..
+    container_name: graph_builder_worker
+    command: python -m graph_builder_worker
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-password}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+    volumes:
+      - s3_local_storage:/app/s3_storage
+    networks:
+      - app-network
+
+  api:
+    build: ..
+    container_name: emc_api
+    ports:
+      - "8000:8000"
+    command: python main.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=emc_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=emc_registry
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=${RABBITMQ_USER:-emc}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-changeme}
+      - S3_BUCKET=emc-documents
+      - S3_ENDPOINT=http://minio:9000
+      - VECTOR_DB_HOST=qdrant
+      - VECTOR_DB_PORT=6333
+      - VECTOR_DB_COLLECTION=emc_embeddings
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-password}
+      - LLM_PROVIDER=local
+      - LLM_MODEL=qwen3-vl-4b
+      - LLM_API_BASE=http://host.docker.internal:1234/v1
+      - EMBEDDING_MODEL=local-minilm
+    volumes:
+      - s3_local_storage:/app/s3_storage
+      - /tmp/emc_uploads:/tmp/emc_uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: emc_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  minio_data:
+  neo4j_data:
+  grafana_data:
+  qdrant_data:
+  s3_local_storage:
+
+networks:
+  app-network:
+    driver: bridge

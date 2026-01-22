@@ -1,0 +1,12 @@
+# Ignore python cache files
+__pycache__/
+*.pyc
+
+# Ignore environment files
+.env
+
+# Ignore the mnt directory
+mnt/
+
+# Ignore s3 storage
+s3_storage/

@@ -1,0 +1,91 @@
+{
+  "session_id": "8d8a4358-76d2-4806-9f01-9072829c79f5",
+  "user_id": "b9fe49e6-a178-4348-a416-b4a6c3b237d3",
+  "title": "hello",
+  "messages": [
+    {
+      "role": "user",
+      "content": "hello",
+      "timestamp": "2025-12-30T12:23:31.832249",
+      "images": [],
+      "attachments": [],
+      "message_id": "410f748e-58a6-4709-ad5c-8c7a58f15f65",
+      "graph_data": null
+    },
+    {
+      "role": "assistant",
+      "content": "Hello. I can assist with EMC, RF, Safety, and regulatory test planning and compliance workflows.\n\nPlease specify a standards or test-related request.",
+      "timestamp": "2025-12-30T12:23:31.898376",
+      "images": [],
+      "attachments": [],
+      "message_id": "187ab973-a6a3-4b2d-b65f-137edc6233ff",
+      "graph_data": null
+    },
+    {
+      "role": "user",
+      "content": "create test plan for dc motor",
+      "timestamp": "2025-12-30T12:23:45.526443",
+      "images": [],
+      "attachments": [],
+      "message_id": "22a95ad4-328a-43c0-b204-5e5df5bc2259",
+      "graph_data": null
+    },
+    {
+      "role": "user",
+      "content": "hello",
+      "timestamp": "2025-12-30T12:39:21.251487",
+      "images": [],
+      "attachments": [],
+      "message_id": "0855bf9a-e00b-4c05-9178-c8edd39e26d0",
+      "graph_data": null
+    },
+    {
+      "role": "assistant",
+      "content": "Hello. I can assist with EMC, RF, Safety, and regulatory test planning and compliance workflows.\n\nPlease specify a standards or test-related request.",
+      "timestamp": "2025-12-30T12:39:21.324743",
+      "images": [],
+      "attachments": [],
+      "message_id": "570d08c9-3e51-40ec-ac5f-ee49256eef8f",
+      "graph_data": null
+    },
+    {
+      "role": "user",
+      "content": "hello",
+      "timestamp": "2025-12-30T12:56:06.607714",
+      "images": [],
+      "attachments": [],
+      "message_id": "67b916d3-8167-43af-86da-34b80e659e4b",
+      "graph_data": null
+    },
+    {
+      "role": "assistant",
+      "content": "Hello. I can assist with EMC, RF, Safety, and regulatory test planning and compliance workflows.\n\nPlease specify a standards or test-related request.",
+      "timestamp": "2025-12-30T12:56:06.669111",
+      "images": [],
+      "attachments": [],
+      "message_id": "a6053942-69b0-474c-9165-265229203a68",
+      "graph_data": null
+    },
+    {
+      "role": "user",
+      "content": "hello",
+      "timestamp": "2025-12-30T12:56:07.182333",
+      "images": [],
+      "attachments": [],
+      "message_id": "902f0c10-1dd2-4630-95f6-cbcf7e51dae8",
+      "graph_data": null
+    },
+    {
+      "role": "assistant",
+      "content": "Hello. I can assist with EMC, RF, Safety, and regulatory test planning and compliance workflows.\n\nPlease specify a standards or test-related request.",
+      "timestamp": "2025-12-30T12:56:07.244631",
+      "images": [],
+      "attachments": [],
+      "message_id": "e05bfb71-7bde-46b4-a759-955b09b3302e",
+      "graph_data": null
+    }
+  ],
+  "created_at": "2025-12-30T12:15:49.191623",
+  "updated_at": "2025-12-30T12:56:07.244631",
+  "starred": false
+}

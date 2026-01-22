@@ -1,0 +1,19 @@
+{
+  "session_id": "1432a1f2-c90d-4990-a43f-3213dc41240d",
+  "user_id": "862507dd-1785-4c36-9844-73c71fd589e9",
+  "title": "hello",
+  "messages": [
+    {
+      "role": "user",
+      "content": "hello",
+      "timestamp": "2025-12-30T12:23:06.310543",
+      "images": [],
+      "attachments": [],
+      "message_id": "67d70b1d-9e92-4bf1-b264-26391e461e8a",
+      "graph_data": null
+    }
+  ],
+  "created_at": "2025-12-30T12:23:06.264643",
+  "updated_at": "2025-12-30T12:23:06.310543",
+  "starred": false
+}
