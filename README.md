@@ -6,28 +6,28 @@ A production-grade, event-driven document processing pipeline for transforming P
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         DOCUMENT INGESTION SERVICE                        │
+│                         DOCUMENT INGESTION SERVICE                      │
 │  FastAPI • SHA-256 Deduplication • PostgreSQL Registry • S3 Storage     │
-└────────────────────────────┬──────────────────────────────────────────────┘
+└────────────────────────────┬────────────────────────────────────────────┘
                              │ DOCUMENT_UPLOADED event
                              ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      MESSAGE BROKER (RabbitMQ/Kafka)                      │
-│           Exchange: document_processing • Topic-based Routing            │
+│                      MESSAGE BROKER (RabbitMQ/Kafka)                    │
+│           Exchange: document_processing • Topic-based Routing           │
 └─┬───────────────────────┬─────────────────────────┬─────────────────────┘
   │                       │                         │
   │ DOCUMENT_UPLOADED     │ EXTRACTION_COMPLETED    │ SCHEMA_READY
   ▼                       ▼                         ▼
 ┌───────────────┐   ┌──────────────────┐    ┌─────────────────────┐
 │ MARKER WORKER │   │  SCHEMA WORKER   │    │  CHUNKING WORKER    │
-│ GPU-Accelerated│   │  json_to_schema  │    │  Deterministic IDs  │
-│ PDF→JSON       │   │  Hierarchy Build │    │  Neo4j + Vector DB  │
+│ GPU-Accelerated│  │  json_to_schema  │    │  Deterministic IDs  │
+│ PDF→JSON       │  │  Hierarchy Build │    │  Neo4j + Vector DB  │
 └───────────────┘   └──────────────────┘    └─────────────────────┘
         │                     │                        │
         │                     │                        │
         ▼                     ▼                        ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          STORAGE & DATABASES                              │
+│                          STORAGE & DATABASES                            │
 │  S3 (MinIO) • PostgreSQL • Neo4j • Vector DB (Pinecone/Weaviate)        │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -484,5 +484,5 @@ Detailed documentation is available in the `docs/` folder:
 
 For issues, questions, or contributions:
 - GitHub Issues: [your-repo/issues]
-- Email: your-email@example.com
+- Email: Bramha.nimbalkar@millenniumtechlink.com
 - Docs: See `docs/` folder
